@@ -123,8 +123,13 @@ const Home = () => {
                   width: isMobile ? "100%" : "auto",
                   margin: "0px",
 <<<<<<< HEAD
+<<<<<<< HEAD
                   background: hoveredButton === "getStarted" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "rgb(255, 255, 255)",
                   color: hoveredButton === "getStarted" ? "#fff" : "rgb(51, 51, 51)",
+=======
+                  background: hoveredButton === "getStarted" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)",
+                  color: hoveredButton === "getStarted" ? "#fff" : "#fff",
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
                   background: hoveredButton === "getStarted" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)",
                   color: hoveredButton === "getStarted" ? "#fff" : "#fff",
@@ -164,8 +169,13 @@ const Home = () => {
                   boxSizing: "border-box",
                   width: isMobile ? "100%" : "auto",
 <<<<<<< HEAD
+<<<<<<< HEAD
                   background: hoveredButton === "watchVideos" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "rgb(255, 255, 255)",
                   color: hoveredButton === "watchVideos" ? "#fff" : "rgb(51, 51, 51)",
+=======
+                  background: hoveredButton === "getStarted" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)",
+                  color: hoveredButton === "getStarted" ? "#fff" : "#fff",
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
                   background: hoveredButton === "getStarted" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)",
                   color: hoveredButton === "getStarted" ? "#fff" : "#fff",
@@ -181,7 +191,11 @@ const Home = () => {
                 <span
                   style={{
 <<<<<<< HEAD
+<<<<<<< HEAD
                     color: hoveredButton === "watchVideos" ? "#fff" : "rgb(247, 53, 49)",
+=======
+                    color: hoveredButton === "watchVideos" ? "#fff" : "#fff",
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
                     color: hoveredButton === "watchVideos" ? "#fff" : "#fff",
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd

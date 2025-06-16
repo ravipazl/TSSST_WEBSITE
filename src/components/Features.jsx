@@ -223,8 +223,13 @@ const Features = () => {
               ...styles.readMoreBtn,
               ...responsiveStyles.readMoreBtn,
 <<<<<<< HEAD
+<<<<<<< HEAD
               background: isReadMoreHovered ?  'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)':'#fff' ,
               color: isReadMoreHovered ? '#fff' : 'black',
+=======
+              background: isReadMoreHovered ?  'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)':'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)' ,
+              color: isReadMoreHovered ? '#fff' : '#fff',
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
               background: isReadMoreHovered ?  'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)':'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)' ,
               color: isReadMoreHovered ? '#fff' : '#fff',

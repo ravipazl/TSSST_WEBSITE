@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import tessstLogo from "../assets/tessst.png";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import buttonImg from "../assets/Button_img.png";
 import frame8 from "../assets/frame 8.png";
 import frame9 from "../assets/frame 9.png";
@@ -153,6 +154,8 @@ function Footer() {
       marginBottom: "20px",
       maxWidth: "350px",
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
  
 import { FaXTwitter } from "react-icons/fa6";
 import { SlSocialLinkedin } from "react-icons/sl";
@@ -200,6 +203,9 @@ function Footer() {
       marginBottom: isSmallMobile ? "15px" : "20px",
       maxWidth: "350px",
       lineHeight: "1.5",
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     },
     inputWrapper: {
@@ -209,7 +215,11 @@ function Footer() {
       overflow: "hidden",
       width: "fit-content",
 <<<<<<< HEAD
+<<<<<<< HEAD
       ...responsiveStyles.inputWrapper
+=======
+      flexDirection: isMobile ? "row" : "row",
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
       flexDirection: isMobile ? "row" : "row",
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -217,6 +227,7 @@ function Footer() {
     input: {
       color: "#333",
       border: "none",
+<<<<<<< HEAD
 <<<<<<< HEAD
       padding: "10px 15px",
       outline: "none",
@@ -262,6 +273,8 @@ function Footer() {
       color: "#222222",
       marginBottom: "10px",
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       padding: isSmallMobile ? "8px 12px" : "10px 15px",
       outline: "none",
       width: isMobile ? (isSmallMobile ? "120px" : "150px") : "200px",
@@ -312,6 +325,9 @@ function Footer() {
       fontWeight: "600",
       color: "#222222",
       marginBottom: isSmallMobile ? "8px" : "10px",
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     },
     link: {
@@ -319,14 +335,20 @@ function Footer() {
       textDecoration: "none",
       display: "block",
 <<<<<<< HEAD
+<<<<<<< HEAD
       marginBottom: "8px",
       fontSize: "16px",
       fontWeight: "400",
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       marginBottom: isSmallMobile ? "6px" : "8px",
       fontSize: isSmallMobile ? "14px" : "16px",
       fontWeight: "400",
       padding: isSmallMobile ? "2px 0" : "0", // Larger touch target for small screens
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     },
     copyright: {
@@ -339,9 +361,15 @@ function Footer() {
     },
   };
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   return (
     <div id="footer">
+=======
+ 
+  return (
+    <div>
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
  
   return (
@@ -359,6 +387,7 @@ function Footer() {
             <input type="email" placeholder="Enter your email" style={styles.input} />
             <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
               <button style={styles.button}>Contact</button>
             </div>
           </div>
@@ -371,6 +400,8 @@ function Footer() {
         </div>
 
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
               <a
                 href="#how-it-works"
                 onClick={(e) => {
@@ -416,21 +447,30 @@ function Footer() {
  
         </div>
  
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
         {/* Right Section */}
         <div style={styles.linksSection}>
           <div style={styles.column}>
             <div style={styles.heading}>Quick Links</div>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <a href="#home" style={styles.link}>Home</a>
             <a href="#features" style={styles.link}>Features</a>
             <a href="#how-it-works" style={styles.link}>How it Works</a>
             <a href="#testimonials" style={styles.link}>Testimonials</a>
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
             <a href="#" style={styles.link}>Home</a>
             <a href="#" style={styles.link}>Features</a>
             <a href="#" style={styles.link}>How it Works</a>
             <a href="#" style={styles.link}>Testimonials</a>
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
           </div>
           <div style={styles.column}>
@@ -449,7 +489,11 @@ function Footer() {
   );
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
  
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd

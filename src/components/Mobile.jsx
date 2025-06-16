@@ -5,7 +5,11 @@ import phone1Img from "../assets/phone_img1.png";
 import phone2Img from "../assets/phone_img2.png";
 import phone3Img from "../assets/phone_img3.png";
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
  
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -15,7 +19,10 @@ function Mobile() {
       marginLeft:"30px",
       marginRight:"30px",
 <<<<<<< HEAD
+<<<<<<< HEAD
       
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       textAlign: "center",
@@ -27,7 +34,11 @@ function Mobile() {
       fontSize: "16px",
       fontWeight: "500",
 <<<<<<< HEAD
+<<<<<<< HEAD
       
+=======
+     
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
      
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -37,7 +48,11 @@ function Mobile() {
       fontWeight: "700",
       marginBottom: "20px",
 <<<<<<< HEAD
+<<<<<<< HEAD
       
+=======
+     
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
      
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -63,7 +78,11 @@ function Mobile() {
       display: "flex",
       justifyContent: "center",
 <<<<<<< HEAD
+<<<<<<< HEAD
       
+=======
+     
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
      
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -74,7 +93,11 @@ function Mobile() {
       borderRadius: "30px",
       marginLeft:"60%"
 <<<<<<< HEAD
+<<<<<<< HEAD
       
+=======
+     
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
      
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -86,7 +109,11 @@ function Mobile() {
      
      
 <<<<<<< HEAD
+<<<<<<< HEAD
       
+=======
+     
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
      
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -97,17 +124,23 @@ function Mobile() {
       borderRadius: "30px",
       marginLeft:"-60%"
 <<<<<<< HEAD
+<<<<<<< HEAD
       
     },
     
   };
 
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
      
     },
    
   };
  
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
   return (
     <div style={styles.page}>
@@ -119,7 +152,11 @@ function Mobile() {
         Get Started Today — Available For Instant Download On Both<br /> iOS And Android Devices.
       </p>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
  
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -128,7 +165,11 @@ function Mobile() {
         <img src="./src/assets/google_img.png" alt="Google Play" width="140" />
       </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
  
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -159,8 +200,14 @@ function Mobile() {
   );
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 export default Mobile;
+=======
+ 
+export default Mobile;
+ 
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
  
 export default Mobile;

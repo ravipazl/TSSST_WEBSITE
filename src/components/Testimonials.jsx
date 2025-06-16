@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from "react";
+=======
+import React, { useState } from "react";
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
 import React, { useState } from "react";
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -10,19 +14,26 @@ import img4 from "../assets/img4.jpg";
 import img5 from "../assets/img5.jpg";
 import img6 from "../assets/img6.jpg";
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 function Testimonials() {
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
  
 function Testimonials() {
   const [hoveredCard, setHoveredCard] = useState(null);
   
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
   const styles = {
     page: {
       marginLeft:"30px",
       marginRight:"30px",
       aligcontent:"center",
+<<<<<<< HEAD
 <<<<<<< HEAD
       
      
@@ -41,6 +52,8 @@ function Testimonials() {
       textAlign: "right",
       
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       backgroundColor: "transparent",
     },
     header: {
@@ -53,6 +66,9 @@ function Testimonials() {
       fontWeight: "400",
       fontSize: "16px",
       textAlign: "right",
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     },
     heading: {
@@ -63,7 +79,11 @@ function Testimonials() {
     },
     highlight: {
 <<<<<<< HEAD
+<<<<<<< HEAD
        background: "linear-gradient(135deg, #ff3e00, #ff6a00)",
+=======
+      background: "linear-gradient(135deg, #ff3e00, #ff6a00)",
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
       background: "linear-gradient(135deg, #ff3e00, #ff6a00)",
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -76,6 +96,7 @@ function Testimonials() {
       width:'100%',
       aligcontent:"center",
 <<<<<<< HEAD
+<<<<<<< HEAD
       
       
     },
@@ -86,12 +107,17 @@ function Testimonials() {
       border: "1px solid #f4f5f8",
       boxShadow: "0 4px 10px rgba(0, 0, 0, 0.06)",
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     },
     card: {
       width:"260px",
       borderRadius: "12px",
       border: "1px solid #f0f0f0",
       boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       fontWeight: "400",
       fontSize: "16px",
@@ -100,8 +126,11 @@ function Testimonials() {
       padding: "20px",
       marginTop:'30px',
 <<<<<<< HEAD
+<<<<<<< HEAD
     
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       background: "#fff",
       transition: "all 0.3s ease",
     },
@@ -109,11 +138,15 @@ function Testimonials() {
       transform: 'translateY(-5px)',
       boxShadow: '0 15px 30px rgba(247, 53, 49, 0.15)',
       border: '1px solid rgba(247, 53, 49, 0.2)',
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     },
     aligment:{
       display: "flex",
       flexDirection: "column",
+<<<<<<< HEAD
 <<<<<<< HEAD
       marginTop: "10%", 
       width:"30%",
@@ -125,10 +158,15 @@ function Testimonials() {
      
       
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       marginTop: "10%",
       width:"30%",
       aligcontent:"center",
       marginLeft:"100px",
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     },
     aligment2:{
@@ -137,12 +175,15 @@ function Testimonials() {
       width:"30%",
       aligcontent:"center"
 <<<<<<< HEAD
+<<<<<<< HEAD
       
       
       
      
      
       
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     },
@@ -184,7 +225,10 @@ function Testimonials() {
       display: "flex",
       gap:"100px",
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     },
@@ -197,6 +241,7 @@ function Testimonials() {
     },
   };
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   return (
     <div style={styles.page} >
@@ -207,6 +252,8 @@ function Testimonials() {
                 </div>
                 <div style={styles.header} className="testimonial_header">
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
  
   return (
     <div style={styles.page} >
@@ -468,12 +515,16 @@ function Testimonials() {
                 <span style={styles.subheading}>TESTIMONIALS</span>
               </div>
               <div style={styles.header} className="testimonial_header">
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
                 <span style={styles.heading}>
                   What Our Users <span style={styles.highlight}>Say</span>
                 </span>
               </div>
             </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 
             <div style={styles.grid} className="testimonial_grid">
@@ -703,6 +754,8 @@ function Testimonials() {
   );
 }
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
             <div style={styles.rghtTop} className="testimonial_rghttop">
               <div style={styles.rghtInner}>
                 <div 
@@ -758,5 +811,8 @@ function Testimonials() {
   );
 }
  
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 export default Testimonials;

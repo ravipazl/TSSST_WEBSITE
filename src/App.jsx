@@ -1,5 +1,9 @@
 import React from 'react'
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -13,17 +17,23 @@ import Mobile from './components/Mobile';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Demo from './components/Demo';
 function App() {
   return (
     <div style={styles.app}>
       <Navbar />
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 import LoginPage from './components/Login';
 
 function MainPage() {
   return (
     <>
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       <Home />
       <Features />
@@ -33,9 +43,12 @@ function MainPage() {
       <Mobile/>  
       <Footer/>
 <<<<<<< HEAD
+<<<<<<< HEAD
       {/* <Demo /> */}
     </div>
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     </>
   );
 }
@@ -51,6 +64,9 @@ function App() {
         </Routes>
       </div>
     </Router>
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
   );
 }

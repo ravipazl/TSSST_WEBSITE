@@ -47,7 +47,10 @@ function AppScreens() {
       maxWidth: "80%",
       height: "auto",
 <<<<<<< HEAD
+<<<<<<< HEAD
       boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       borderRadius: "10px",

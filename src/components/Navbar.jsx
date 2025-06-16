@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import { Link } from 'react-router-dom';
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
 import { Link } from 'react-router-dom';
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
@@ -9,11 +13,14 @@ const Navbar = () => {
   const [hoveredLink, setHoveredLink] = useState(null);
   const [isDownloadHovered, setIsDownloadHovered] = useState(false);
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,6 +34,9 @@ const Navbar = () => {
     setIsIOS(isIOSDevice);
   }, []);
 
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
   // Update window width when resized
   useEffect(() => {
@@ -37,6 +47,7 @@ const Navbar = () => {
       }
     };
 <<<<<<< HEAD
+<<<<<<< HEAD
     
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -44,6 +55,8 @@ const Navbar = () => {
   
   // Handle smooth scrolling
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 
     let timeoutId;
     const debouncedResize = () => {
@@ -58,6 +71,9 @@ const Navbar = () => {
     };
   }, []);
 
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
@@ -68,6 +84,7 @@ const Navbar = () => {
       }
     }
   };
+<<<<<<< HEAD
 <<<<<<< HEAD
   
   // Update active section based on scroll position
@@ -94,6 +111,8 @@ const Navbar = () => {
         setActiveSection('features');
       } else if (scrollPosition < testimonialsSectionTop - 100) {
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 
   useEffect(() => {
     const handleScroll = () => {
@@ -114,12 +133,16 @@ const Navbar = () => {
       } else if (scrollPosition < positions.howItWorks - 100) {
         setActiveSection('features');
       } else if (scrollPosition < positions.testimonials - 100) {
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
         setActiveSection('howItWorks');
       } else {
         setActiveSection('testimonials');
       }
     };
+<<<<<<< HEAD
 <<<<<<< HEAD
     
     window.addEventListener('scroll', handleScroll);
@@ -219,6 +242,8 @@ const Navbar = () => {
           zIndex: 100,
         }
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -410,6 +435,9 @@ const Navbar = () => {
           padding: windowWidth < 360 ? '8px 12px' : '8px 16px',
           fontSize: windowWidth < 360 ? '13px' : '14px',
         },
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       };
     }
@@ -418,6 +446,7 @@ const Navbar = () => {
     if (windowWidth > 768 && windowWidth <= 1024) {
       return {
         container: {
+<<<<<<< HEAD
 <<<<<<< HEAD
           ...styles.container,
         },
@@ -440,6 +469,8 @@ const Navbar = () => {
         },
         logoContainer: {}
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
           padding: '0 20px',
         },
         nav: {
@@ -456,11 +487,15 @@ const Navbar = () => {
           padding: '8px 16px',
           fontSize: '14px',
         },
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       };
     }
     
     // Default styles (desktop)
+<<<<<<< HEAD
 <<<<<<< HEAD
     return {
       container: {},
@@ -574,6 +609,8 @@ const Navbar = () => {
           Download App
         </a>
 =======
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     return {};
   };
 
@@ -755,12 +792,16 @@ const Navbar = () => {
             </Link>
           </div>
         )}
+<<<<<<< HEAD
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
+=======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       </div>
     </header>
   );
 };
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 const styles = {
   navbar: {
@@ -833,6 +874,8 @@ const styles = {
   },
 };
 
+=======
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 =======
 >>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 export default Navbar;
