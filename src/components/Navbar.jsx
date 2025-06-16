@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
 
 const Navbar = () => {
   const [hoveredLink, setHoveredLink] = useState(null);
   const [isDownloadHovered, setIsDownloadHovered] = useState(false);
+  const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
@@ -91,7 +93,7 @@ const Navbar = () => {
   const baseStyles = {
     navbar: {
       width: '100%',
-      padding: '15px 0',
+      padding: windowWidth < 360 ? '10px 0' : '15px 0',
       backgroundColor: '#FFFFFF',
       position: 'sticky',
       top: 0,
@@ -135,15 +137,26 @@ const Navbar = () => {
       cursor: 'pointer',
       transition: 'all 0.3s ease',
     },
+    loginBtn: {
+      padding: '10px 20px',
+      fontSize: '14px',
+      fontWeight: 'bold',
+      borderRadius: '6px',
+      textDecoration: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      background: 'transparent',
+    },
     hamburger: {
       display: 'none',
       flexDirection: 'column',
       cursor: 'pointer',
       gap: '5px',
       zIndex: 110,
+      padding: '8px', // Larger touch target
     },
     hamburgerLine: {
-      width: '25px',
+      width: windowWidth < 360 ? '22px' : '25px',
       height: '3px',
       backgroundColor: '#333',
       transition: 'all 0.3s ease',
@@ -159,13 +172,14 @@ const Navbar = () => {
     },
     mobileMenuClose: {
       position: 'absolute',
-      top: '20px',
-      right: '20px',
-      fontSize: '28px',
+      top: windowWidth < 360 ? '15px' : '20px',
+      right: windowWidth < 360 ? '15px' : '20px',
+      fontSize: windowWidth < 360 ? '24px' : '28px',
       fontWeight: 'bold',
       color: '#F73531',
       cursor: 'pointer',
       zIndex: 110,
+      padding: '5px 10px', // Larger touch target
     },
     mobileNavContainer: {
       display: 'flex',
@@ -196,6 +210,19 @@ const Navbar = () => {
       color: '#fff',
       textDecoration: 'none',
     },
+    mobileLoginBtn: {
+      marginTop: '20px',
+      padding: '12px 24px',
+      width: '80%',
+      textAlign: 'center',
+      fontSize: '16px',
+      fontWeight: 'bold',
+      borderRadius: '6px',
+      background: 'transparent',
+      color: '#333',
+      textDecoration: 'none',
+      border: '2px solid #ddd',
+    },
   };
 
   // Get responsive styles based on window width
@@ -204,7 +231,7 @@ const Navbar = () => {
     if (windowWidth <= 768) {
       return {
         container: {
-          padding: windowWidth < 360 ? '0 10px' : '0 15px',
+          padding: windowWidth < 360 ? '0 8px' : windowWidth < 480 ? '0 12px' : '0 15px',
         },
         nav: {
           position: 'fixed',
@@ -233,6 +260,11 @@ const Navbar = () => {
           padding: windowWidth < 360 ? '8px 12px' : '8px 16px',
           fontSize: windowWidth < 360 ? '13px' : '14px',
         },
+        loginBtn: {
+          display: isMobileMenuOpen ? 'none' : 'block',
+          padding: windowWidth < 360 ? '8px 12px' : '8px 16px',
+          fontSize: windowWidth < 360 ? '13px' : '14px',
+        },
       };
     }
     
@@ -249,6 +281,10 @@ const Navbar = () => {
           fontSize: '15px',
         },
         downloadBtn: {
+          padding: '8px 16px',
+          fontSize: '14px',
+        },
+        loginBtn: {
           padding: '8px 16px',
           fontSize: '14px',
         },
@@ -352,50 +388,90 @@ const Navbar = () => {
               </a>
             ))}
             
-            {/* Show download button inside mobile menu */}
+            {/* Show buttons inside mobile menu */}
             {windowWidth <= 768 && (
-              <a
-                href={isIOS 
-                  ? "https://apps.apple.com/us/app/tssst/id6745514901"
-                  : "https://play.google.com/store/apps/details?id=com.pazl.buzzApp"
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                style={baseStyles.mobileDownloadBtn}
-              >
-                Download App
-              </a>
+              <>
+
+                <a
+                  href={isIOS 
+                    ? "https://apps.apple.com/us/app/tssst/id6745514901"
+                    : "https://play.google.com/store/apps/details?id=com.pazl.buzzApp"
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={baseStyles.mobileDownloadBtn}
+                >
+                  Download App
+                </a>
+                
+                <Link
+                  to="/login"
+                  style={{
+                    ...baseStyles.mobileLoginBtn,
+                    border: '2px solid #F73531',
+                    color: '#F73531',
+                    marginTop: '10px',
+                    textDecoration: 'none',
+                    display: 'block',
+                    textAlign: 'center'
+                  }}
+                >
+                  Login
+                </Link>
+                
+              </>
             )}
           </div>
         </nav>
 
-        {/* Show download button only outside mobile menu on desktop */}
+        {/* Show buttons outside mobile menu on desktop */}
         {windowWidth > 768 && (
-          <a
-            href={isIOS 
-              ? "https://apps.apple.com/us/app/tssst/id6745514901"
-              : "https://play.google.com/store/apps/details?id=com.pazl.buzzApp"
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              ...baseStyles.downloadBtn,
-              ...responsiveStyles.downloadBtn,
-              background: isDownloadHovered
-                ? 'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)'
-                : '#fff',
-              color: isDownloadHovered ? '#fff' : '#000',
-              border: isDownloadHovered ? '2px solid transparent' : '2px solid #F73531',
-              transform: isDownloadHovered ? 'translateY(-2px)' : 'translateY(0)',
-              boxShadow: isDownloadHovered
-                ? '0 6px 15px rgba(247, 53, 49, 0.25)'
-                : '0 4px 10px rgba(247, 53, 49, 0.15)',
-            }}
-            onMouseEnter={() => setIsDownloadHovered(true)}
-            onMouseLeave={() => setIsDownloadHovered(false)}
-          >
-            Download App
-          </a>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <a
+              href={isIOS 
+                ? "https://apps.apple.com/us/app/tssst/id6745514901"
+                : "https://play.google.com/store/apps/details?id=com.pazl.buzzApp"
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                ...baseStyles.downloadBtn,
+                ...responsiveStyles.downloadBtn,
+                background: isDownloadHovered
+                  ? 'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)'
+                  : 'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)',
+                color: isDownloadHovered ? '#fff' : '#fff',
+                border: isDownloadHovered ? '2px solid transparent' : '2px solid #F73531',
+                transform: isDownloadHovered ? 'translateY(-2px)' : 'translateY(0)',
+                boxShadow: isDownloadHovered
+                  ? '0 6px 15px rgba(247, 53, 49, 0.25)'
+                  : '0 4px 10px rgba(247, 53, 49, 0.15)',
+                marginRight: '10px'
+              }}
+              onMouseEnter={() => setIsDownloadHovered(true)}
+              onMouseLeave={() => setIsDownloadHovered(false)}
+            >
+              Download App
+            </a>
+            <Link
+              to="/login"
+              style={{
+                ...baseStyles.loginBtn,
+                ...responsiveStyles.loginBtn,
+                color: isLoginHovered ? '#F73531' : '#333',
+                border: isLoginHovered ? '2px solid #F73531' : '2px solid #ddd',
+                transform: isLoginHovered ? 'translateY(-2px)' : 'translateY(0)',
+                boxShadow: isLoginHovered
+                  ? '0 4px 10px rgba(0, 0, 0, 0.1)'
+                  : 'none',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={() => setIsLoginHovered(true)}
+              onMouseLeave={() => setIsLoginHovered(false)}
+            >
+              Login
+            </Link>
+          </div>
         )}
       </div>
     </header>

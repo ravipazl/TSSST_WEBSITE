@@ -122,8 +122,8 @@ const Home = () => {
                   boxSizing: "border-box",
                   width: isMobile ? "100%" : "auto",
                   margin: "0px",
-                  background: hoveredButton === "getStarted" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "rgb(255, 255, 255)",
-                  color: hoveredButton === "getStarted" ? "#fff" : "rgb(51, 51, 51)",
+                  background: hoveredButton === "getStarted" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)",
+                  color: hoveredButton === "getStarted" ? "#fff" : "#fff",
                   border: hoveredButton === "getStarted" ? "2px solid transparent" : "2px solid rgb(247, 53, 49)",
                   boxShadow: hoveredButton === "getStarted" ? "0 8px 20px rgba(247, 53, 49, 0.3)" : "rgba(247, 53, 49, 0.1) 0px 4px 10px",
                   transform: hoveredButton === "getStarted" ? "translateY(-3px)" : "translateY(0px)"
@@ -158,8 +158,8 @@ const Home = () => {
                   minWidth: "clamp(120px, 15vw, 160px)",
                   boxSizing: "border-box",
                   width: isMobile ? "100%" : "auto",
-                  background: hoveredButton === "watchVideos" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "rgb(255, 255, 255)",
-                  color: hoveredButton === "watchVideos" ? "#fff" : "rgb(51, 51, 51)",
+                  background: hoveredButton === "getStarted" ? "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)" : "linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)",
+                  color: hoveredButton === "getStarted" ? "#fff" : "#fff",
                   border: hoveredButton === "watchVideos" ? "2px solid transparent" : "2px solid rgb(247, 53, 49)",
                   boxShadow: hoveredButton === "watchVideos" ? "0 8px 20px rgba(247, 53, 49, 0.3)" : "rgba(247, 53, 49, 0.1) 0px 4px 10px",
                   transform: hoveredButton === "watchVideos" ? "translateY(-3px)" : "translateY(0px)"
@@ -170,7 +170,7 @@ const Home = () => {
                 Watch Videos{" "}
                 <span
                   style={{
-                    color: hoveredButton === "watchVideos" ? "#fff" : "rgb(247, 53, 49)",
+                    color: hoveredButton === "watchVideos" ? "#fff" : "#fff",
                     marginLeft: "5px"
                   }}
                 >

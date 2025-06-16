@@ -35,6 +35,8 @@ img {
   display: none;
 }
 
+/* Testimonial card styles are now defined in the component */
+
 /* Responsive adjustments */
 @media (max-width: 1100px) {
   .testimonial_aligment {
@@ -75,7 +77,7 @@ img {
   }
   .testimonial_card {
     width: 260px;
-    margin-right: 10px !important
+    margin-right: 10px !important;
   }
 }
 

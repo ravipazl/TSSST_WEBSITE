@@ -46,7 +46,6 @@ function AppScreens() {
       width: "auto",
       maxWidth: "80%",
       height: "auto",
-      boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
       borderRadius: "10px",
     },
     indicators: {

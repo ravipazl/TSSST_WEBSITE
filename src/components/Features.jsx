@@ -222,8 +222,8 @@ const Features = () => {
             style={{
               ...styles.readMoreBtn,
               ...responsiveStyles.readMoreBtn,
-              background: isReadMoreHovered ?  'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)':'#fff' ,
-              color: isReadMoreHovered ? '#fff' : 'black',
+              background: isReadMoreHovered ?  'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)':'linear-gradient(90deg, #F73531 0%, #FF6B00 98.5%)' ,
+              color: isReadMoreHovered ? '#fff' : '#fff',
               border: isReadMoreHovered ? '2px solid transparent' : '2px solid #F73531',
               transform: isReadMoreHovered ? 'translateY(-3px)' : 'translateY(0)',
               boxShadow: isReadMoreHovered 
