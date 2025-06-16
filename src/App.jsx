@@ -1,12 +1,5 @@
 import React from 'react'
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
->>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
-=======
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
->>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 import './App.css'
 import Home from './components/Home'
 import Navbar from './components/Navbar'
@@ -16,25 +9,11 @@ import AppScreens from './components/Appscreen';
 import Mobile from './components/Mobile';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import Demo from './components/Demo';
-function App() {
-  return (
-    <div style={styles.app}>
-      <Navbar />
-=======
-=======
->>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 import LoginPage from './components/Login';
 
 function MainPage() {
   return (
     <>
-<<<<<<< HEAD
->>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
-=======
->>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
       <Home />
       <Features />
       <HowItWorks />
@@ -42,13 +21,6 @@ function MainPage() {
       <AppScreens/>
       <Mobile/>  
       <Footer/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-      {/* <Demo /> */}
-    </div>
-=======
-=======
->>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
     </>
   );
 }
@@ -64,10 +36,6 @@ function App() {
         </Routes>
       </div>
     </Router>
-<<<<<<< HEAD
->>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
-=======
->>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
   );
 }
 
