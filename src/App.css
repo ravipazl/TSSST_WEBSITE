@@ -35,6 +35,11 @@ img {
   display: none;
 }
 
+<<<<<<< HEAD
+=======
+/* Testimonial card styles are now defined in the component */
+
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
 /* Responsive adjustments */
 @media (max-width: 1100px) {
   .testimonial_aligment {
@@ -75,7 +80,11 @@ img {
   }
   .testimonial_card {
     width: 260px;
+<<<<<<< HEAD
     margin-right: 10px !important
+=======
+    margin-right: 10px !important;
+>>>>>>> 25f51a8b3cf6ee60bea71a8be20834b96f2addcd
   }
 }
 
