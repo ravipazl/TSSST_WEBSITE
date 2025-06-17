@@ -84,8 +84,20 @@ function Mobile() {
       </p>
  
       <div style={styles.appButtons}>
-        <img src="./src/assets/app_img.png" alt="App Store" width="140" />
-        <img src="./src/assets/google_img.png" alt="Google Play" width="140" />
+        <a 
+          href="https://apps.apple.com/us/app/tssst/id6745514901" 
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          <img src={appStoreImg} alt="App Store" width="140" style={{ cursor: 'pointer' }} />
+        </a>
+        <a 
+          href="https://play.google.com/store/apps/details?id=com.pazl.buzzApp" 
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          <img src={googlePlayImg} alt="Google Play" width="140" style={{ cursor: 'pointer' }} />
+        </a>
       </div>
  
       <div style={styles.phoneContainer}>

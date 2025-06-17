@@ -9,11 +9,19 @@ import AppScreens from './components/Appscreen';
 import Mobile from './components/Mobile';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
-import LoginPage from './components/Login';
+
+// Admin components
+import Dashboard from './admin/Dashboard';
+import ApiLogs from './admin/Apilogs';
+import AppLogs from './admin/Applogs';
+import AppRelease from './admin/Apprelease';
+import ConfigSettings from './admin/Configsettings';
+import AdminLayout from './admin/AdminLayout';
 
 function MainPage() {
   return (
     <>
+      <Navbar />
       <Home />
       <Features />
       <HowItWorks />
@@ -25,14 +33,29 @@ function MainPage() {
   );
 }
 
+// Admin route wrapper component
+const AdminRoute = ({ component: Component }) => {
+  return (
+    <AdminLayout>
+      <Component />
+    </AdminLayout>
+  );
+};
+
 function App() {
   return (
     <Router>
       <div style={styles.app}>
-        <Navbar />
         <Routes>
+          {/* Public routes */}
           <Route path="/" element={<MainPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          
+          {/* Admin routes */}
+          <Route path="/admin" element={<AdminRoute component={Dashboard} />} />
+          <Route path="/admin/api-logs" element={<AdminRoute component={ApiLogs} />} />
+          <Route path="/admin/app-logs" element={<AdminRoute component={AppLogs} />} />
+          <Route path="/admin/app-releases" element={<AdminRoute component={AppRelease} />} />
+          <Route path="/admin/config-settings" element={<AdminRoute component={ConfigSettings} />} />
         </Routes>
       </div>
     </Router>
