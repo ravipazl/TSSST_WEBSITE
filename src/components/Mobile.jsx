@@ -104,21 +104,21 @@ function Mobile() {
         <div>
         <img
           style={styles.phoneImage}
-          src="./src/assets/phone_img2.png"
+          src={phone2Img}
           alt="Phone 1"
         />
         </div>
         <div>
         <img
           style={styles.phoneImage2}
-          src="./src/assets/phone_img1.png"
+          src={phone1Img}
           alt="Phone 2"
         />
         </div>
         <div  >
         <img
           style={styles.phoneImage3}
-          src="./src/assets/phone_img3.png"
+          src={phone3Img}
           alt="Phone 3"
         />
         </div>
