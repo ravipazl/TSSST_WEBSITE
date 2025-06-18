@@ -6,7 +6,7 @@ import { LuRefreshCcw } from "react-icons/lu";
 import { FcSearch } from "react-icons/fc";
 import ConfigSettingModal from "./Configsettingmodal";
  
-const API_BASE_URL = "https://buzz.pazl.info/buzz-api";
+import { BaseUrl } from "../components/Constant";
  
 const Configsettings = () => {
   const [configs, setConfigs] = useState([]);
@@ -34,7 +34,7 @@ const Configsettings = () => {
   const fetchConfigs = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_BASE_URL}/config`);
+      const response = await axios.get(`${BaseUrl}/config`);
       console.log("Fetched configs:", response.data);
       // Adapt if nested: assume array or { data: [...] }
       const arr = Array.isArray(response.data)

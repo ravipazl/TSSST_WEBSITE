@@ -4,7 +4,7 @@ import { MdOutlineClose } from "react-icons/md";
 import { IoMdCheckmark, IoMdArrowDropdown } from "react-icons/io";
 import { LuRefreshCcw } from "react-icons/lu";
 import { FcSearch } from "react-icons/fc";
- 
+import { AppLogUrl} from "../components/Constant";
 // Custom Dropdown Component
 const CustomDropdown = ({ options, value, onChange, width = "120px" }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -161,7 +161,7 @@ const AppLogs = () => {
       try {
         // Use the current page and logs per page in the API request
         const response = await axios.get(
-          `https://buzz.pazl.info/buzz-api/all-analyticss-applogs?page=${currentPage}&limit=${logsPerPage}&search=${searchTerm}`
+          `${AppLogUrl}-applogs?page=${currentPage}&limit=${logsPerPage}&search=${searchTerm}`
         );
        
         // Extract data from the response

@@ -6,7 +6,7 @@ import { LuRefreshCcw } from "react-icons/lu";
 import { FcSearch } from "react-icons/fc";
 import AddAppReleaseModal from "./Appreleasemodal";
 import toast from "react-hot-toast";
- 
+import { AppReleaseUrl, BaseUrl } from "../components/Constant";
 // Custom Dropdown Component
 const CustomDropdown = ({ options, value, onChange, width = "120px" }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -175,7 +175,7 @@ const Apprelease = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://buzz.pazl.info/buzz-api/app-releases?page=${currentPage}&limit=${logsPerPage}&search=${searchTerm}`
+        `${AppReleaseUrl}?page=${currentPage}&limit=${logsPerPage}&search=${searchTerm}`
       );
      
       // Check if the response has the expected structure
