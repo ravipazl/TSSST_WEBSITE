@@ -49,14 +49,9 @@ const AdminLayout = ({ children }) => {
       icon: <FaChartLine /> 
     },
     { 
-      name: "API Logs", 
-      path: "/admin/api-logs", 
-      icon: <FaCode /> 
-    },
-    { 
-      name: "App Logs", 
-      path: "/admin/app-logs", 
-      icon: <FaClipboardList /> 
+      name: "Config Settings", 
+      path: "/admin/config-settings", 
+      icon: <FaCog /> 
     },
     { 
       name: "App Releases", 
@@ -64,9 +59,14 @@ const AdminLayout = ({ children }) => {
       icon: <FaClipboardList /> 
     },
     { 
-      name: "Config Settings", 
-      path: "/admin/config-settings", 
-      icon: <FaCog /> 
+      name: "App Logs", 
+      path: "/admin/app-logs", 
+      icon: <FaClipboardList /> 
+    },
+    { 
+      name: "API Logs", 
+      path: "/admin/api-logs", 
+      icon: <FaCode /> 
     }
   ];
 
@@ -78,7 +78,7 @@ const AdminLayout = ({ children }) => {
   // Handle logout
   const handleLogout = () => {
     // Add logout logic here
-    navigate("/login");
+    navigate("/");
   };
 
   // Handle navigation
@@ -126,15 +126,17 @@ const AdminLayout = ({ children }) => {
               <span style={styles.navText}>{item.name}</span>
             </div>
           ))}
-        </div>
 
-        <div 
+          <div 
           style={styles.logoutButton}
           onClick={handleLogout}
         >
           <span style={styles.navIcon}><FaSignOutAlt /></span>
           <span style={styles.navText}>Logout</span>
         </div>
+        </div>
+
+
       </div>
 
       {/* Main Content */}
@@ -254,7 +256,6 @@ const styles = {
     display: "flex",
     alignItems: "center",
     cursor: "pointer",
-    borderTop: "1px solid #34495e",
     marginTop: "auto",
     position: "sticky",
     bottom: 0,

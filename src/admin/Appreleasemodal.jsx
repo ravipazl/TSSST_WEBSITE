@@ -1,68 +1,153 @@
 import React, { useState, useEffect } from "react";
-
-const AddAppReleaseModal = ({ isOpen, onClose, initialData = null, isEditing = false }) => {
+import axios from "axios";
+ 
+const AddAppReleaseModal = ({ isOpen,setIsModalOpen, onClose, initialData = null, isEditing = false }) => {
   const [osType, setOsType] = useState(initialData?.osType || "Android");
   const [version, setVersion] = useState(initialData?.version || "");
   const [releaseNotes, setReleaseNotes] = useState(initialData?.releaseNotes || "");
   const [apkFile, setApkFile] = useState(null);
-  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [currentFileName, setCurrentFileName] = useState("");
+  const [currentFileUrl, setCurrentFileUrl] = useState("");
+ 
   // Update form when initialData changes (for editing)
   useEffect(() => {
     if (initialData) {
-      setOsType(initialData.osType || initialData.userName || "Android");
-      setVersion(initialData.version || initialData.apiName || "");
-      setReleaseNotes(initialData.releaseNotes || initialData.requestTime || "");
-      // We don't set the file as it can't be pre-filled
+      console.log("Initial data for modal:", initialData);
+     
+      // Set form fields from initialData
+      setOsType(initialData.osType || "Android");
+      setVersion(initialData.version || "");
+      setReleaseNotes(initialData.releaseNotes || "");
+     
+      // Set the current file URL if available
+      if (initialData.apkFileUrl) {
+        setCurrentFileUrl(initialData.apkFileUrl);
+        const fileName = initialData.apkFileUrl.split('/').pop() || "app-release.apk";
+        setCurrentFileName(fileName);
+      }
+     
+      // We don't set the file input as it can't be pre-filled for security reasons
     }
   }, [initialData]);
-
-  const handleSubmit = (e) => {
+ 
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Here you can send the form data to your backend
+    setIsSubmitting(true);
+    setError(null);
+ 
+    // Validate file type for new uploads
+    if (apkFile && !apkFile.name.toLowerCase().endsWith('.apk')) {
+      setError("Please upload a valid APK file (.apk extension)");
+      setIsSubmitting(false);
+      return;
+    }
+ 
+    // Create form data for the API request
     const formData = new FormData();
     formData.append("osType", osType);
     formData.append("version", version);
     formData.append("releaseNotes", releaseNotes);
-    
+   
     // Only append file if it's provided (might not be for editing)
     if (apkFile) {
       formData.append("apkFile", apkFile);
     }
-    
-    if (isEditing) {
-      // For editing, you might want to include the ID
-      if (initialData.id) {
+   
+    try {
+      let response;
+     
+      if (isEditing && initialData && initialData.id) {
+        // For editing, use PUT request with the ID
         formData.append("id", initialData.id);
+       
+        // If no new file is provided and we're editing, we need to tell the server to keep the existing file
+        if (!apkFile && initialData.apkFileUrl) {
+          formData.append("keepExistingFile", "true");
+        }
+       
+        // For editing, we need to include the ID in the URL
+        response = await axios.put(
+          `https://buzz.pazl.info/buzz-api/app-releases/${initialData.id}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+      } else {
+        // For creating, use POST request
+        response = await axios.post(
+          "https://buzz.pazl.info/buzz-api/app-releases",
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
       }
-      console.log("Updating release", formData);
-    } else {
-      console.log("Creating new release", formData);
+     
+      if (response.data && response.data.status) {
+        // Close the modal and refresh the parent component
+        onClose(true); // Pass true to indicate successful operation
+      } else {
+        setError(response.data?.message || "Failed to save. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setError(error.response?.data?.message ||
+               (error.response?.status === 413 ? "File is too large. Maximum size is 10MB." :
+               "An error occurred. Please try again."));
+    } finally {
+      setIsSubmitting(false);
     }
-    
-    onClose();
   };
-
+ 
   if (!isOpen) return null;
-
+ 
   return (
     <div style={overlayStyles}>
       <div style={modalStyles}>
-        <button onClick={onClose} style={closeButtonStyle}>
+        <button
+          onClick={() => {
+            if (onClose) onClose(false);
+            if (setIsModalOpen) setIsModalOpen(false);
+          }}
+          style={closeButtonStyle}
+          disabled={isSubmitting}
+        >
           &times;
         </button>
         <h2 style={{ textAlign: "center" }}>{isEditing ? "Edit App Release" : "Add New App Release"}</h2>
+       
+        {error && (
+          <div style={{
+            backgroundColor: "#ffebee",
+            color: "#c62828",
+            padding: "10px",
+            borderRadius: "4px",
+            marginBottom: "15px",
+            fontSize: "14px"
+          }}>
+            {error}
+          </div>
+        )}
+       
         <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
           <label>OS Type:</label>
           <select
             value={osType}
             onChange={(e) => setOsType(e.target.value)}
             style={inputStyle}
+            disabled={isSubmitting}
           >
             <option value="Android">Android</option>
             <option value="iOS">iOS</option>
           </select>
-
+ 
           <label>Version:</label>
           <input
             type="text"
@@ -71,36 +156,121 @@ const AddAppReleaseModal = ({ isOpen, onClose, initialData = null, isEditing = f
             onChange={(e) => setVersion(e.target.value)}
             style={inputStyle}
             required
+            disabled={isSubmitting}
           />
-
+ 
           <label>Release Notes:</label>
           <textarea
             value={releaseNotes}
             onChange={(e) => setReleaseNotes(e.target.value)}
             style={{ ...inputStyle, height: "100px" }}
             required
+            disabled={isSubmitting}
           />
-
-          <label>APK File:{isEditing && " (Leave empty to keep current file)"}</label>
-          <input
-            type="file"
-            onChange={(e) => setApkFile(e.target.files[0])}
-            style={inputStyle}
-            required={!isEditing} // Only required for new releases
-          />
-          
-          {isEditing && initialData && (
-            <div style={{ marginBottom: "15px", fontSize: "14px", color: "#666" }}>
-              Current file: {initialData.apkFile || "app-release.apk"}
-            </div>
-          )}
-
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
-            <button type="button" onClick={onClose} style={cancelButtonStyle}>
+ 
+          <label style={{
+            fontWeight: "bold",
+            fontSize: "15px",
+            display: "block",
+            marginBottom: "5px"
+          }}>
+            APK File{isEditing ? " (Upload new file )" : ""}
+          </label>
+          <div style={{ position: "relative" }}>
+            {/* Show file input for new uploads or when editing */}
+            <input
+              type="file"
+              onChange={(e) => setApkFile(e.target.files[0])}
+              style={{
+                ...inputStyle,
+                paddingRight: "110px", // Make room for the file name
+                border: "2px solid #ddd",
+                padding: "10px",
+                backgroundColor: "#f9f9f9"
+              }}
+              required={!isEditing} // Only required for new releases
+              disabled={isSubmitting}
+              accept=".apk"
+              id="apkFileInput"
+            />
+           
+            {/* Show selected file name if a new file is selected */}
+            {apkFile && (
+              <div style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                backgroundColor: "#f0f0f0",
+                padding: "2px 8px",
+                borderRadius: "4px",
+                fontSize: "12px",
+                maxWidth: "100px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap"
+              }}>
+                {apkFile.name}
+              </div>
+            )}
+           
+            {/* Show current file name when editing */}
+            {isEditing && currentFileUrl && !apkFile && (
+              <div style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                backgroundColor: "#f0f0f0",
+                padding: "2px 8px",
+                borderRadius: "4px",
+                fontSize: "12px",
+                maxWidth: "150px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap"
+              }}>
+                {currentFileName}
+              </div>
+            )}
+          </div>
+         
+ 
+ 
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "20px" }}>
+            <button
+              type="button"
+              onClick={() => {
+                if (onClose) onClose(false);
+                if (setIsModalOpen) setIsModalOpen(false);
+              }}
+              style={{
+                ...cancelButtonStyle,
+                opacity: isSubmitting ? 0.7 : 1,
+                cursor: isSubmitting ? "not-allowed" : "pointer"
+              }}
+              disabled={isSubmitting}
+            >
               Cancel
             </button>
-            <button type="submit" style={submitButtonStyle}>
-              {isEditing ? "Update" : "Submit"}
+            <button
+              type="submit"
+              style={{
+                ...submitButtonStyle,
+                opacity: isSubmitting ? 0.7 : 1,
+                cursor: isSubmitting ? "not-allowed" : "pointer"
+              }}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <span>
+                  <span style={{ display: "inline-block", marginRight: "8px" }}>
+                    {isEditing ? "Updating..." : "Submitting..."}
+                  </span>
+                </span>
+              ) : (
+                isEditing ? "Update" : "Submit"
+              )}
             </button>
           </div>
         </form>
@@ -108,7 +278,7 @@ const AddAppReleaseModal = ({ isOpen, onClose, initialData = null, isEditing = f
     </div>
   );
 };
-
+ 
 // Styles
 const overlayStyles = {
   position: "fixed",
@@ -122,7 +292,7 @@ const overlayStyles = {
   alignItems: "center",
   zIndex: 1000,
 };
-
+ 
 const modalStyles = {
   backgroundColor: "#fff",
   padding: "30px",
@@ -131,7 +301,7 @@ const modalStyles = {
   position: "relative",
   boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
 };
-
+ 
 const inputStyle = {
   width: "100%",
   padding: "8px",
@@ -139,7 +309,7 @@ const inputStyle = {
   borderRadius: "4px",
   border: "1px solid #ccc",
 };
-
+ 
 const closeButtonStyle = {
   position: "absolute",
   top: "10px",
@@ -149,7 +319,7 @@ const closeButtonStyle = {
   fontSize: "24px",
   cursor: "pointer",
 };
-
+ 
 const cancelButtonStyle = {
   padding: "8px 16px",
   borderRadius: "4px",
@@ -157,7 +327,7 @@ const cancelButtonStyle = {
   background: "#f9f9f9",
   cursor: "pointer",
 };
-
+ 
 const submitButtonStyle = {
   padding: "8px 16px",
   borderRadius: "4px",
@@ -167,5 +337,8 @@ const submitButtonStyle = {
   fontWeight: "bold",
   cursor: "pointer",
 };
-
+ 
 export default AddAppReleaseModal;
+ 
+ 
+ 

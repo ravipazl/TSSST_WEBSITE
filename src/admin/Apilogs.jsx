@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+// Link is not used, so it can be removed
+// import { Link } from "react-router-dom"; 
 import { MdOutlineClose } from "react-icons/md";
 import { IoMdCheckmark, IoMdArrowDropdown } from "react-icons/io";
 import { LuRefreshCcw } from "react-icons/lu";
 import { FcSearch } from "react-icons/fc";
+
+// Custom Dropdown Component (No changes needed here, it's well-written)
 // Custom Dropdown Component
-const CustomDropdown = ({ options, value, onChange, width = "120px" }) => {
+const CustomDropdown = ({ options, value, onChange, width = "120px", justifyContent = "flex-start" }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -28,7 +30,6 @@ const CustomDropdown = ({ options, value, onChange, width = "120px" }) => {
     setIsOpen(false);
   };
 
-  // Find the selected option object
   const selectedOption = options.find(option => option.value === value) || options[0];
 
   return (
@@ -40,32 +41,52 @@ const CustomDropdown = ({ options, value, onChange, width = "120px" }) => {
         userSelect: "none"
       }}
     >
-      {/* Dropdown Header */}
+      {/* Main Dropdown Button */}
       <div 
         onClick={() => setIsOpen(!isOpen)}
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "8px",
-          border: "1px solid #ccc",
-          borderRadius: "4px",
+          padding: "8px 12px",
+          border: "1px solid #FF6B00",
+          borderRadius: "6px",
           backgroundColor: "white",
           cursor: "pointer",
-          height: "36px",
-          boxSizing: "border-box"
+          height: "30px",
+          width: "100%",
+          boxSizing: "border-box",
+          fontSize: "14px",
+          fontWeight: "500",
+          color: "#FF6B00",
+          transition: "all 0.2s ease",
+          boxShadow: "0 1px 2px rgba(255,107,0,0.1)"
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
+        {/* Container for the selected item's label and icon */}
+        <div style={{ 
+          display: "flex", 
+          alignItems: "center",
+          // FIX: Use the 'justifyContent' prop here instead of a hardcoded value.
+          // This allows the caller to decide the alignment (e.g., 'center' for "Items per page").
+          justifyContent: justifyContent, 
+          // We also make this container flexible to take up the available space.
+          flex: 1, 
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}>
           {selectedOption.icon && 
             <span style={{ marginRight: "8px", display: "flex", alignItems: "center" }}>{selectedOption.icon}</span>
           }
           {selectedOption.label}
         </div>
-        <IoMdArrowDropdown style={{ fontSize: "20px" }} />
+        
+        {/* The Arrow Icon */}
+        <IoMdArrowDropdown style={{ fontSize: "20px", color: "#FF6B00", marginLeft: "5px", flexShrink: 0 }} />
       </div>
 
-      {/* Dropdown Menu */}
+      {/* Dropdown Menu (This part was already correct) */}
       {isOpen && (
         <div 
           style={{
@@ -74,11 +95,12 @@ const CustomDropdown = ({ options, value, onChange, width = "120px" }) => {
             left: 0,
             width: "100%",
             backgroundColor: "white",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
+            border: "1px solid #FF6B00",
+            borderRadius: "8px",
             marginTop: "4px",
             zIndex: 10,
-            boxShadow: "0 2px 5px rgba(0,0,0,0.2)"
+            boxShadow: "0 4px 12px rgba(255,107,0,0.15)",
+            overflow: "hidden"
           }}
         >
           {options.map((option, index) => (
@@ -88,21 +110,32 @@ const CustomDropdown = ({ options, value, onChange, width = "120px" }) => {
               style={{
                 display: "flex",
                 alignItems: "center",
-                padding: "8px",
-                height: "36px",
+                justifyContent: "space-between",
+                padding: "8px 12px",
+                height: "30px",
                 boxSizing: "border-box",
                 cursor: "pointer",
-                backgroundColor: option.value === value ? "#f0f0f0" : "white",
+                backgroundColor: "white",
                 borderBottom: index < options.length - 1 ? "1px solid #eee" : "none",
-                transition: "background-color 0.2s"
+                transition: "all 0.2s ease",
+                fontSize: "14px",
+                fontWeight: option.value === value ? "500" : "400",
+                color: "#FF6B00",
+                borderLeft: option.value === value ? "3px solid #FF6B00" : "3px solid transparent",
+                whiteSpace: "nowrap",
               }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#f5f5f5"}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = option.value === value ? "#f0f0f0" : "white"}
+              onMouseOver={(e) => { e.currentTarget.style.backgroundColor = "#fff4ee"; }}
+              onMouseOut={(e) => { e.currentTarget.style.backgroundColor = "white"; }}
             >
-              {option.icon && 
-                <span style={{ marginRight: "8px", display: "flex", alignItems: "center" }}>{option.icon}</span>
-              }
-              {option.label}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: justifyContent, flex: 1 }}>
+                {option.icon && 
+                  <span style={{ marginRight: "8px", display: "flex", alignItems: "center" }}>{option.icon}</span>
+                }
+                {option.label}
+              </div>
+              {option.value === value && (
+                <IoMdCheckmark style={{ color: "#FF6B00", fontSize: "18px", marginLeft: "auto" }} />
+              )}
             </div>
           ))}
         </div>
@@ -111,60 +144,70 @@ const CustomDropdown = ({ options, value, onChange, width = "120px" }) => {
   );
 };
 
+// --- Your full ApiLogs component with the corrected CustomDropdown ---
+// You can replace your entire file with this code.
+
 const ApiLogs = () => {
   const [logs, setLogs] = useState([]);
-  const [statusFilter, setStatusFilter] = useState("All");
+  const [statusFilter, setStatusFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [logsPerPage, setLogsPerPage] = useState(2); // Default value
+  const [totalPages, setTotalPages] = useState(1);
+  const API_ENDPOINT = "https://buzz.pazl.info/buzz-api/all-analyticss";
+  const [logsPerPage, setLogsPerPage] = useState(5); 
   const [loading, setLoading] = useState(true);
 
-  // Fetch logs from API
-  useEffect(() => {
-    const fetchLogs = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          "https://mocki.io/v1/b0ecaa35-d872-47a3-8dc4-1fc946a4fe1b"
-        );
-        setLogs(response.data);
-      } catch (error) {
-        console.error("Error fetching logs:", error);
-      } finally {
-        setLoading(false);
+  const fetchLogs = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(API_ENDPOINT, {
+        params: {
+          page: currentPage,
+          limit: logsPerPage,
+          search: searchTerm,
+          status: statusFilter,
+        },
+      });
+      if (response.data && response.data.logs && Array.isArray(response.data.logs)) {
+        setLogs(response.data.logs);
+        setTotalPages(response.data.totalPages || 1);
+      } else {
+        console.warn("API response format unexpected:", response.data);
+        setLogs([]);
+        setTotalPages(1);
       }
+    } catch (error) {
+      console.error("Error fetching logs:", error);
+      setLogs([]);
+      setTotalPages(1);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+        fetchLogs();
+    }, 300);
+    return () => {
+        clearTimeout(handler);
     };
-
-    fetchLogs();
-  }, []);
-
-  // Filter logs
-  const filteredLogs = logs.filter((log) => {
-    const matchesStatus =
-      statusFilter === "All" ||
-      log.status.toLowerCase() === statusFilter.toLowerCase();
-    const matchesSearch =
-      searchTerm === "" ||
-      log.userName.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesStatus && matchesSearch;
-  });
-
-  // Pagination logic
-  const totalPages = Math.ceil(filteredLogs.length / logsPerPage);
-  const indexOfLastLog = currentPage * logsPerPage;
-  const indexOfFirstLog = indexOfLastLog - logsPerPage;
-  const currentLogs = filteredLogs.slice(indexOfFirstLog, indexOfLastLog);
+  }, [statusFilter, searchTerm, currentPage, logsPerPage]);
 
   const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
   };
 
   const handlePrev = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
   };
 
   return (
-    <div style={{ padding: "20px"}}>
+    <div style={{ padding: "20px" }}>
       <div
         style={{
           display: "flex",
@@ -181,238 +224,302 @@ const ApiLogs = () => {
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "stretch", /* Changed to stretch to align heights */
+          justifyContent: "flex-end",
+          alignItems: "stretch",
           gap: "15px",
           marginBottom: "20px",
           flexWrap: "wrap",
-          maxWidth: "800px",
           margin: "0 auto 20px auto",
         }}
       >
-        <div style={{ flex: "1", maxWidth: "300px", position: "relative" }}>
-          <div style={{ 
-            position: "absolute", 
-            left: "8px", 
-            top: "50%", 
-            transform: "translateY(-50%)",
-            display: "flex",
-            alignItems: "center",
-            pointerEvents: "none"
-          }}>
-            <FcSearch />
-          </div>
-          <input
-            type="text"
-            placeholder="Search by User Name..."
-            style={{
-              width: "100%",
-              padding: "8px 8px 8px 32px", /* Added left padding for the icon */
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              height: "36px", /* Fixed height to match dropdowns */
-              boxSizing: "border-box",
-            }}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
         <div style={{ width: "150px" }}>
           <CustomDropdown
             value={statusFilter}
-            onChange={(value) => setStatusFilter(value)}
-            width="100%"
-            options={[
-              { value: "All", label: "All Status", icon: <LuRefreshCcw style={{color: "blue", fontSize: "18px"}}/> },
-              { value: "Success", label: "Success", icon: <IoMdCheckmark style={{ color: "green", fontSize: "18px" }} /> },
-              { value: "Failed", label: "Failed", icon: <MdOutlineClose style={{ color: "red", fontSize: "18px" }} /> }
-            ]}
-          />
-        </div>
-        {/* Logs per page selector */}
-        <div style={{ width: "150px" }}>
-          <CustomDropdown
-            value={logsPerPage.toString()}
             onChange={(value) => {
-              setLogsPerPage(Number(value));
-              setCurrentPage(1); // Reset to first page when changing items per page
+              setStatusFilter(value);
+              setCurrentPage(1);
             }}
             width="100%"
             options={[
-              { value: "2", label: "per page 2" },
-              { value: "5", label: "per page 5" },
-              { value: "10", label: "per page 10" },
-              { value: "20", label: "per page 20" }
+              {
+                value: "",
+                label: "All Status",
+                icon: (
+                  <LuRefreshCcw style={{ color: "blue", fontSize: "18px" }} />
+                ),
+              },
+              {
+                value: "success",
+                label: "Success",
+                icon: (
+                  <IoMdCheckmark style={{ color: "green", fontSize: "18px" }} />
+                ),
+              },
+              {
+                value: "failed",
+                label: "Failed",
+                icon: (
+                  <MdOutlineClose style={{ color: "red", fontSize: "18px" }} />
+                ),
+              },
             ]}
+          />
+        </div>
+        <div style={{ flex: "1", maxWidth: "300px", position: "relative" }}>
+          <div
+            style={{
+              position: "absolute",
+              left: "8px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              display: "flex",
+              alignItems: "center",
+              pointerEvents: "none",
+              color: "#FF6B00",
+            }}
+          >
+            <FcSearch style={{ fontSize: "18px" }} />
+          </div>
+          <input
+            type="text"
+            placeholder="Search by Phone Number..."
+            style={{
+              width: "100%",
+              padding: "8px 8px 8px 32px",
+              border: "1px solid #FF6B00",
+              borderRadius: "6px",
+              height: "30px",
+              boxSizing: "border-box",
+              fontSize: "14px",
+              color: "#FF6B00",
+              outline: "none",
+            }}
+            onFocus={(e) => {
+              e.target.style.boxShadow = "0 0 0 2px rgba(255,107,0,0.2)";
+            }}
+            onBlur={(e) => {
+              e.target.style.boxShadow = "0 1px 2px rgba(255,107,0,0.1)";
+            }}
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
           />
         </div>
       </div>
 
       {/* Logs Table */}
-      <div style={{ overflowX: "auto" }}>
+      <div style={{ overflowX: "auto", maxHeight: "380px", overflowY: "auto" ,border: "1px solid #ddd"}}>
         {loading ? (
-          <div style={{ 
-            textAlign: "center", 
-            padding: "30px", 
- 
-            borderRadius: "8px",
-            border: "1px solid #ddd",
-            marginBottom: "20px"
-          }}>
-            <div style={{ 
-              display: "inline-block",
-              width: "40px",
-              height: "40px",
-              border: "4px solid #f3f3f3",
-              borderTop: "4px solid #FF6B00",
-              borderRadius: "50%",
-              animation: "spin 1s linear infinite",
-              marginBottom: "15px"
-            }} />
-            <p style={{ fontSize: "18px", color: "#666" }}>
-              Loading logs...
-            </p>
-            <style>
-              {`
-                @keyframes spin {
-                  0% { transform: rotate(0deg); }
-                  100% { transform: rotate(360deg); }
-                }
-              `}
-            </style>
+          <div
+            style={{
+              textAlign: "center",
+              padding: "30px",
+              borderRadius: "8px",
+              border: "1px solid #ddd",
+              marginBottom: "20px",
+            }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                width: "40px",
+                height: "40px",
+                border: "4px solid #f3f3f3",
+                borderTop: "4px solid #FF6B00",
+                borderRadius: "50%",
+                animation: "spin 1s linear infinite",
+                marginBottom: "15px",
+              }}
+            />
+            <p style={{ fontSize: "18px", color: "#666" }}>Loading logs...</p>
+            <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
           </div>
-        ) : filteredLogs.length === 0 ? (
-          <div style={{ 
-            textAlign: "center", 
-            padding: "30px", 
-            backgroundColor: "#f8f8f8", 
-            borderRadius: "8px",
-            border: "1px solid #ddd",
-            marginBottom: "20px"
-          }}>
-            <p style={{ fontSize: "18px", color: "#666" }}>
-              No logs found matching your filters.
-            </p>
+        ) : logs.length === 0 ? (
+          <div
+            style={{
+              textAlign: "center",
+              padding: "30px",
+              backgroundColor: "#f8f8f8",
+              borderRadius: "8px",
+              border: "1px solid #ddd",
+              marginBottom: "20px",
+            }}
+          >
+            <p style={{ fontSize: "18px", color: "#666" }}>No logs found.</p>
           </div>
         ) : (
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead>
+          <table style={{ width: "100%" }}>
+            <thead style={{ position: "sticky", top: 0, zIndex: 1 }}>
               <tr
                 style={{
                   backgroundColor: "#FF6B00",
                   color: "white",
-                  textAlign: "left",
+                  textAlign: "center",
                 }}
               >
-                <th style={cellStyle}>User Name</th>
+                <th style={cellStyle}>Phone Number</th>
                 <th style={cellStyle}>API Name</th>
-                <th style={cellStyle}>Status</th>
+                <th style={cellStyle}>Status Code</th>
                 <th style={cellStyle}>Request Time</th>
                 <th style={cellStyle}>Response Time</th>
                 <th style={cellStyle}>Device Details</th>
               </tr>
             </thead>
             <tbody>
-              {currentLogs.map((log, index) => (
-                <tr key={index} style={{ borderBottom: "1px solid #ccc" }}>
-                  <td style={cellStyle}>{log.userName}</td>
-                  <td style={cellStyle}>{log.apiName}</td>
-                  <td
-                    style={{
-                      ...cellStyle,
-                      color: log.status === "Success" ? "green" : "red",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {log.status === "Success" ? (
-                      <span style={{ display: "flex", alignItems: "center" }}>
-                        <IoMdCheckmark style={{ marginRight: "4px" }} />
-                        Success
-                      </span>
-                    ) : (
-                      <span style={{ display: "flex", alignItems: "center" }}>
+              {logs.map((log, index) => {
+                const userName = log.phoneNumber || "N/A";
+                const apiName = log.apiName || "N/A";
+                const status = log.statusCode || "N/A";
+                const requestTime = log.requestTime
+                  ? new Date(log.requestTime).toLocaleString()
+                  : "N/A";
+                const responseTime = log.responseTime
+                  ? new Date(log.responseTime).toLocaleString()
+                  : "N/A";
+                const deviceDetails = log.deviceDetails || {};
+                const isSuccess = status >= 200 && status < 300;
+
+                return (
+                  <tr key={index} style={{ borderBottom: "1px solid #ccc" }}>
+                    <td style={cellStyle}>{userName}</td>
+                    <td style={cellStyle}>{apiName}</td>
+                    <td
+                      style={{
+                        ...cellStyle,
+                        color: isSuccess ? "green" : "red",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {isSuccess ? (
                         <span style={{ display: "flex", alignItems: "center" }}>
-                          <MdOutlineClose style={{ marginRight: "4px" }} />
-                          Failed
+                          <IoMdCheckmark style={{ marginRight: "4px" }} />{" "}
+                          {status.valueOf() === 200 ? "Success" : status}
                         </span>
-                      </span>
-                    )}
-                  </td>
-                  <td style={cellStyle}>{log.requestTime}</td>
-                  <td style={cellStyle}>{log.responseTime}</td>
-                  <td style={cellStyle}>
-                    <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>
-                      {JSON.stringify(log.deviceDetails, null, 2)}
-                    </pre>
-                  </td>
-                </tr>
-              ))}
+                      ) : (
+                        <span style={{ display: "flex", alignItems: "center" }}>
+                          <MdOutlineClose style={{ marginRight: "4px" }} />{" "}
+                          {status.valueOf() === 404
+                            ? "Failed"
+                            : status}
+                        </span>
+                      )}
+                    </td>
+                    <td style={cellStyle}>{requestTime}</td>
+                    <td style={cellStyle}>{responseTime}</td>
+                    <td style={cellStyle}>
+                      <pre
+                        style={{
+                          margin: 0,
+                          whiteSpace: "pre-wrap",
+                          fontSize: "12px",
+                        }}
+                      >
+                        {Object.keys(deviceDetails).length > 0
+                          ? JSON.stringify(deviceDetails, null, 2)
+                          : "N/A"}
+                      </pre>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}
       </div>
 
-      {/* Pagination - only show when there are logs and not loading */}
-      {!loading && filteredLogs.length > 0 && (
+      {/* Pagination */}
+      {!loading && logs.length > 0 && (
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-end",
             alignItems: "center",
             marginTop: "30px",
             marginBottom: "20px",
             gap: "20px",
           }}
         >
-          <button
-            onClick={handlePrev}
-            disabled={currentPage === 1}
-            style={{
-              backgroundColor: "#FF6B00",
-              color: "white",
-              border: "none",
-              padding: "10px 20px",
-              borderRadius: "8px",
-              cursor: currentPage === 1 ? "not-allowed" : "pointer",
-              fontWeight: "bold",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-              opacity: currentPage === 1 ? 0.7 : 1,
-            }}
-          >
-            ← Prev
-          </button>
-          <span style={{ fontWeight: "bold", fontSize: "18px" }}>
-            Page {currentPage} of {totalPages || 1}
-          </span>
-          <button
-            onClick={handleNext}
-            disabled={currentPage === totalPages || totalPages === 0}
-            style={{
-              backgroundColor: "#FF6B00",
-              color: "white",
-              border: "none",
-              padding: "10px 20px",
-              borderRadius: "8px",
-              cursor: currentPage === totalPages || totalPages === 0 ? "not-allowed" : "pointer",
-              fontWeight: "bold",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-              opacity: currentPage === totalPages || totalPages === 0 ? 0.7 : 1,
-            }}
-          >
-            Next →
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <label
+              style={{
+                fontSize: "14px",
+                fontWeight: "500",
+                color: "#FF6B00",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Items per page:
+            </label>
+            <CustomDropdown
+              value={logsPerPage.toString()}
+              onChange={(value) => {
+                setLogsPerPage(Number(value));
+                setCurrentPage(1);
+              }}
+              justifyContent="center"
+              width="100px"
+              options={[
+                { value: "5", label: "5" },
+                { value: "10", label: "10" },
+              ]}
+            />
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <button
+              onClick={handlePrev}
+              disabled={currentPage === 1}
+              style={{
+                ...buttonStyle,
+                cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                opacity: currentPage === 1 ? 0.7 : 1,
+              }}
+            >
+              ← Prev
+            </button>
+            <span
+              style={{ fontWeight: "bold", fontSize: "14px", color: "#FF6B00" }}
+            >
+              Page {currentPage} of {totalPages || 1}
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={currentPage === totalPages || totalPages === 0}
+              style={{
+                ...buttonStyle,
+                cursor:
+                  currentPage === totalPages || totalPages === 0
+                    ? "not-allowed"
+                    : "pointer",
+                opacity:
+                  currentPage === totalPages || totalPages === 0 ? 0.7 : 1,
+              }}
+            >
+              Next →
+            </button>
+          </div>
         </div>
       )}
-      
-      {/* These components are now separate routes */}
     </div>
   );
 };
 
 const cellStyle = {
-  padding: "10px",
-  border: "1px solid #ddd",
-  verticalAlign: "top",
+  padding: "12px 15px",
+  borderBottom: "1px solid #ddd",
+  fontSize: "14px",
+  verticalAlign: 'top'
+};
+
+const buttonStyle = {
+  backgroundColor: "transparent",
+  color: "#FF6B00",
+  border: "1px solid #FF6B00",
+  padding: "6px 12px",
+  borderRadius: "4px",
+  fontWeight: "bold",
 };
 
 export default ApiLogs;

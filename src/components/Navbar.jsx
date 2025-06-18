@@ -426,7 +426,7 @@ const Navbar = () => {
                     cursor: 'pointer',
                   }}
                 >
-                  Login
+                  Admin Login
                 </button>
                 
               </>
@@ -480,7 +480,7 @@ const Navbar = () => {
               onMouseEnter={() => setIsLoginHovered(true)}
               onMouseLeave={() => setIsLoginHovered(false)}
             >
-              Login
+              Admin Login
             </button>
           </div>
         )}

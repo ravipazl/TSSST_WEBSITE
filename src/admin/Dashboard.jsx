@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Bar,
   Line,
@@ -31,8 +32,7 @@ import { FaChartLine } from "react-icons/fa6";
 import { IoIosHourglass } from "react-icons/io";
 import { FaChartPie } from "react-icons/fa6";
 import { FaFireFlameCurved } from "react-icons/fa6";
-import { FaCalendarAlt } from 'react-icons/fa';
-// No need to import ApiLogs as it will be a separate route
+import { FaCalendarAlt, FaSyncAlt } from 'react-icons/fa';
  
 // Function to get responsive styles based on screen width
 const getResponsiveStyles = (width) => {
@@ -69,7 +69,7 @@ const getResponsiveStyles = (width) => {
       fontWeight: "bold",
       margin: isMobile ? "8px 0" : "0",
     },
-   
+ 
     summaryContainer: {
       display: "flex",
       justifyContent: "center",
@@ -77,11 +77,12 @@ const getResponsiveStyles = (width) => {
       width: "100%",
       maxWidth: "1000px",
       margin: "30px auto 0",
+      marginBottom: "30px",
     },
-   
+ 
     cardContainer: {
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "s",
       alignItems: "center",
       flexWrap: "wrap",
       width: "100%",
@@ -93,6 +94,123 @@ const getResponsiveStyles = (width) => {
  
 function Dashboard() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [activeuserlabels, setActiveuserlabels] = useState([]);
+  const [activecountusers, setActivecountuser] = useState([]);
+  const [activedatelabels, setActivedatelabels] = useState([]);
+  const [activecountdate, setActivecountdate] = useState([]);
+  const [activetimeduration, setActivetimeduration] = useState([]);
+  const [activeurls, setActiveurls] = useState([]);
+  const [activesuccess, setActivesuccess] = useState({ success_count: 0, failure_count: 0 });
+  const [activemostapicalls, setActivemostapicalls] = useState([]);
+  const [activemostapiurl, setActivemostapiurl] = useState([]);
+  const [request_date, setRequest_date] = useState([]);
+  const [active_user, setActive_user] = useState([]);
+  const [userCounts, setUserCounts] = useState({ totalusers: 0, androidusers: 0, iosusers: 0 });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+ 
+ 
+ 
+ 
+ 
+ 
+  // Function to fetch all data
+  const fetchAllData = () => {
+    setLoading(true);
+    setError(null);
+   
+    // Fetch user API data
+    axios.get("https://buzz.pazl.info/buzz-api/all-analytics")
+      .then((res) => {
+        const apidata = res.data.userApiData;
+        setActiveuserlabels(apidata.map((item) => item.phoneNumber));
+        setActivecountuser(apidata.map((item) => item.total_calls));
+       
+        // API Trends
+        const trendsData = res.data.apiTrends;
+        setActivedatelabels(trendsData.map((item) => item.request_date));
+        setActivecountdate(trendsData.map((item) => item.total_calls));
+       
+        // Average Duration
+        const durationData = res.data.avgDuration;
+        setActivetimeduration(durationData.map((item) => item.avg_duration));
+        setActiveurls(durationData.map((item) => item.url));
+       
+        // Status Count
+        const statusData = res.data.statusCount;
+        setActivesuccess({
+          success_count: Number(statusData.success_count),
+          failure_count: Number(statusData.failure_count),
+        });
+       
+        // Most Used APIs
+        const mostUsedData = res.data.mostUsedApis;
+        setActivemostapicalls(mostUsedData.map((item) => item.total_calls));
+        setActivemostapiurl(mostUsedData.map((item) => item.url));
+       
+        // Active Users By Date
+        const activeUserData = res.data.activeUsersByDate;
+        setRequest_date(activeUserData.map((item) => item.request_date));
+        setActive_user(activeUserData.map((item) => item.active_users));
+       
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setError("Failed to load analytics data. Please try again later.");
+        setLoading(false);
+      });
+     
+    // Fetch user counts
+    axios.get("https://buzz.pazl.info/buzz-api/user-counts")
+      .then((res) => {
+        const coundata = res.data.data;
+        console.log(coundata);
+        setUserCounts({
+          totalusers: Number(coundata.totalUsers || 0),
+          androidusers: Number(coundata.androidUsers || 0),
+          iosusers: Number(coundata.iosUsers || 0),
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        setError("Failed to load user statistics. Please try again later.");
+      });
+  };
+ 
+ 
+  const LoadingSpinner = () => (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: getChartHeight(),
+      flexDirection: 'column'
+    }}>
+      {/* <div style={{
+        width: '40px',
+        height: '40px',
+        border: '4px solid rgba(0, 0, 0, 0.1)',
+        borderRadius: '50%',
+        borderTop: '4px solid #007bff',
+        animation: 'spin 1s linear infinite'
+      }} /> */}
+      <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+      <p style={{ marginTop: '10px', color: '#666' }}>Loading data...</p>
+    </div>
+  );
+ 
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchAllData();
+  }, []);
+ 
+ 
  
   // Get responsive styles based on current window width
   const style = getResponsiveStyles(windowWidth);
@@ -102,9 +220,9 @@ function Dashboard() {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-   
+ 
     window.addEventListener('resize', handleResize);
-   
+ 
     // Clean up event listener
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -153,23 +271,83 @@ function Dashboard() {
         TSSST API Analytics Dashboard
       </h1>
  
+     
+      <div style={style.summaryContainer}>
+        <div style={style.cardContainer}>
+          <div style={style.bottomStyle}>
+            <h4>Total Users</h4>
+            <p style={{
+              fontSize: isMobile ? "18px" : "22px",
+              fontWeight: "bold",
+              color: "#007bff",
+              marginTop: "8px"
+            }}>{userCounts.totalusers}</p>
+          </div>
+ 
+          <div style={style.bottomStyle}>
+            <h4>Android Users</h4>
+            <p style={{
+              fontSize: isMobile ? "18px" : "22px",
+              fontWeight: "bold",
+              color: "green",
+              marginTop: "8px"
+            }}>{userCounts.androidusers}</p>
+          </div>
+ 
+          <div style={style.bottomStyle}>
+            <h4>iOS Users</h4>
+            <p style={{
+              fontSize: isMobile ? "18px" : "22px",
+              fontWeight: "bold",
+              color: "red",
+              marginTop: "8px"
+            }}>{userCounts.iosusers}</p>
+          </div>
+        </div>
+      </div>
+     
+     
+ 
+      {/* Error message display */}
+      {error && (
+        <div style={{
+          backgroundColor: '#f8d7da',
+          color: '#721c24',
+          padding: '10px 15px',
+          borderRadius: '4px',
+          marginBottom: '15px',
+          textAlign: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px'
+        }}>
+          <span style={{ fontWeight: 'bold' }}>⚠️</span>
+          {error}
+        </div>
+      )}
+     
       <div style={style.rowStyle}>
         <div style={style.containerStyle}>
           <h3><FcBarChart style={{ marginRight: '8px' }} />API Calls per User</h3>
           <div style={{ height: getChartHeight() }}>
-            <Bar
-              data={{
-                labels: ["User 1234567890", "User 2987654323", "User 3987654321", "User 4123456789", "User 52345678912","User 1234567890", "User 2987654323", "User 3987654321", "User 4123456789", "User 52345678912","User 1234567890", "User 2987654323", "User 3987654321", "User 4123456789", "User 52345678912","User 1234567890", "User 2987654323", "User 3987654321", "User 4123456789", "User 52345678912"],
-                datasets: [
-                  {
-                    label: "API Calls",
-                    data: [4500,4900,5300,42000, 10000, 8000, 3000, 1500, 500, 200, 700,1200, 1500, 3000, 1000, 800, 1400, 1000,500,700],
-                    backgroundColor: "blue",
-                  },
-                ],
-              }}
-              options={chartOptions}
-            />
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <Bar
+                data={{
+                  labels: activeuserlabels,
+                  datasets: [
+                    {
+                      label: "Active Users",
+                      data: activecountusers,
+                      backgroundColor: "blue",
+                    },
+                  ],
+                }}
+                options={chartOptions}
+              />
+            )}
           </div>
         </div>
  
@@ -178,11 +356,11 @@ function Dashboard() {
           <div style={{ height: getChartHeight() }}>
             <Line
               data={{
-                labels: ["2025-06-01", "2025-06-02", "2025-06-03", "2025-06-04","2025-06-01", "2025-06-02", "2025-06-03", "2025-06-04","2025-06-01", "2025-06-02", "2025-06-03", "2025-06-04","2025-06-01", "2025-06-02", "2025-06-03", "2025-06-04"],
+                labels: activedatelabels,
                 datasets: [
                   {
                     label: "Requests",
-                    data: [0,2500, 3000, 800, 1200, 500, 1000, 1500, 2000, 1500, 2000,4900, 1500, 2000, 1500, 2000, 1000, 3000, 2000, 6000, 4000],
+                    data: activecountdate,
                     borderColor: "green",
                     backgroundColor: "lightgreen",
                   },
@@ -198,11 +376,11 @@ function Dashboard() {
           <div style={{ height: getChartHeight() }}>
             <Bar
               data={{
-                labels: ["User 1", "User 2", "User 3", "User 4", "User 5", "User 6", "User 7", "User 8", "User 9", "User 10"],
+                labels: activeurls,
                 datasets: [
                   {
                     label: "Avg Duration (ms)",
-                    data: [200, 350, 150],
+                    data: activetimeduration,
                     backgroundColor: "orange",
                   },
                 ],
@@ -213,33 +391,37 @@ function Dashboard() {
         </div>
  
         <div style={style.containerStyle}>
-          <h3><FaChartPie style={{ marginRight: '8px' }}  /> Success vs Failed Requests</h3>
+          <h3><FaChartPie style={{ marginRight: '8px' }} /> Success vs Failed Requests</h3>
           <div style={{ height: getChartHeight() }}>
-            <Pie
-              data={{
-                labels: ["Success Request", "Failed Request"],
-                datasets: [
-                  {
-                    data: [100884, 289],
-                    backgroundColor: ["green", "red"],
-                  },
-                ],
-              }}
-              options={chartOptions}
-            />
+            {activesuccess.success_count !== undefined && activesuccess.failure_count !== undefined && (
+              <Pie
+                data={{
+                  labels: ["Success Request", "Failed Request"],
+                  datasets: [
+                    {
+                      data: [activesuccess.success_count, activesuccess.failure_count],
+                      backgroundColor: ["green", "red"],
+                    },
+                  ],
+                }}
+                options={chartOptions}
+              />
+            )}
+ 
           </div>
         </div>
+ 
  
         <div style={style.containerStyle}>
           <h3><FaFireFlameCurved style={{ marginRight: '8px' }} /> Peak Request Hours</h3>
           <div style={{ height: getChartHeight() }}>
             <Bar
               data={{
-                labels: ["buzz-api/app-config", "buzz-api/customer/profile", "buzz-api/custmoer/fcm", "buzz-api/incoming-call-history", "buzz-api/country", "buzz-api/send-otp", "buzz-api/verify-otp", "buzz-api/user/login", "buzz-api/user/logout"],
+                labels: activemostapiurl,
                 datasets: [
                   {
                     label: "Requests",
-                    data: [38000,15000,12000,7000,3000, 800, 800, 800, 800],
+                    data: activemostapicalls,
                     backgroundColor: "purple",
                   },
                 ],
@@ -254,10 +436,10 @@ function Dashboard() {
           <div style={{ height: getChartHeight() }}>
             <Bar
               data={{
-                labels: ["2025-04-17", "2025-04-20", "2025-04-22", "2025-4-24","2025-05-2","2025-05-12","2025-05-19","2025-05-25","2025-05-30","2025-06-05","2025-06-10","2025-06-15","2025-06-20","2025-06-25","2025-06-30"],
+                labels: request_date,
                 datasets: [
                   {
-                    data: [10, 7, 22, 15, 20, 25, 3, 3, 4, 5, 6, 7, 8, 8, 25, 3, 10, 10],
+                    data: active_user,
                     backgroundColor: ["#00BFFF"],
                   },
                 ],
@@ -267,42 +449,9 @@ function Dashboard() {
           </div>
         </div>
       </div>
+ 
      
-      {/* ✅ Bottom summary section */}
-      <div style={style.summaryContainer}>
-        <div style={style.cardContainer}>
-          <div style={style.bottomStyle}>
-            <h4>Total Users</h4>
-            <p style={{
-              fontSize: isMobile ? "18px" : "22px",
-              fontWeight: "bold",
-              color: "#007bff",
-              marginTop: "8px"
-            }}>140</p>
-          </div>
  
-          <div style={style.bottomStyle}>
-            <h4>Android Users</h4>
-            <p style={{
-              fontSize: isMobile ? "18px" : "22px",
-              fontWeight: "bold",
-              color: "green",
-              marginTop: "8px"
-            }}>131</p>
-          </div>
- 
-          <div style={style.bottomStyle}>
-            <h4>iOS Users</h4>
-            <p style={{
-              fontSize: isMobile ? "18px" : "22px",
-              fontWeight: "bold",
-              color: "red",
-              marginTop: "8px"
-            }}>9</p>
-          </div>
-        </div>
-      </div>
-      {/* ApiLogs is now a separate route */}
     </div>
   );
 }
