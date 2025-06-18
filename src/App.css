@@ -223,3 +223,25 @@ img {
     max-width: 100% !important;
   }
 }
+
+
+/* Thinner scrollbar for WebKit browsers */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #FF6B00 ;/* Or any color you prefer */
+  border-radius: 10px;
+  border: none;
+}
+
+/* Optional: make scrollbar disappear unless hovering (Chrome only) */
+body::-webkit-scrollbar {
+  width: 6px;
+}

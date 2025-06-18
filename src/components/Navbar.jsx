@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
+import LoginModal from './LoginModal';
 
 const Navbar = () => {
   const [hoveredLink, setHoveredLink] = useState(null);
@@ -10,6 +11,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const [isIOS, setIsIOS] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   
   // Detect iOS device on component mount
   useEffect(() => {
@@ -327,8 +329,10 @@ const Navbar = () => {
   };
 
   return (
-    <header style={{...baseStyles.navbar}}>
-      <div style={{...baseStyles.container, ...responsiveStyles.container}}>
+    <>
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+      <header style={{...baseStyles.navbar}}>
+        <div style={{...baseStyles.container, ...responsiveStyles.container}}>
         <div style={{...baseStyles.logoContainer, ...responsiveStyles.logoContainer}}>
           <img src={logoImg} alt="Logo" style={baseStyles.logoImage} />
         </div>
@@ -404,8 +408,11 @@ const Navbar = () => {
                   Download App
                 </a>
                 
-                <Link
-                  to="/login"
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsLoginModalOpen(true);
+                  }}
                   style={{
                     ...baseStyles.mobileLoginBtn,
                     border: '2px solid #F73531',
@@ -413,11 +420,14 @@ const Navbar = () => {
                     marginTop: '10px',
                     textDecoration: 'none',
                     display: 'block',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    width: '80%',
+                    background: 'transparent',
+                    cursor: 'pointer',
                   }}
                 >
-                  Login
-                </Link>
+                  Admin Login
+                </button>
                 
               </>
             )}
@@ -453,8 +463,8 @@ const Navbar = () => {
             >
               Download App
             </a>
-            <Link
-              to="/login"
+            <button
+              onClick={() => setIsLoginModalOpen(true)}
               style={{
                 ...baseStyles.loginBtn,
                 ...responsiveStyles.loginBtn,
@@ -465,16 +475,18 @@ const Navbar = () => {
                   ? '0 4px 10px rgba(0, 0, 0, 0.1)'
                   : 'none',
                 textDecoration: 'none',
+                cursor: 'pointer',
               }}
               onMouseEnter={() => setIsLoginHovered(true)}
               onMouseLeave={() => setIsLoginHovered(false)}
             >
-              Login
-            </Link>
+              Admin Login
+            </button>
           </div>
         )}
       </div>
     </header>
+    </>
   );
 };
 
