@@ -149,7 +149,7 @@ const AppLogs = () => {
   const [logs, setLogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [logsPerPage, setLogsPerPage] = useState(5); // Default value
+  const [logsPerPage, setLogsPerPage] = useState(25); // Default value
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -228,7 +228,7 @@ const AppLogs = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: "20px",
+         
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
@@ -286,7 +286,7 @@ const AppLogs = () => {
       </div>
  
       {/* Logs Table */}
-      <div style={{ overflowX: "auto",height:"380px" , overflowY: "auto"}}>
+      <div style={{ overflowX: "auto",height:"450px" , overflowY: "auto"}}>
         {loading ? (
           <div style={{
             textAlign: "center",
@@ -405,7 +405,7 @@ const AppLogs = () => {
               }}
               width="120px"
               options={[
-                { value: "5", label: "5 items" },
+                { value: "25", label: "25 items" },
                 { value: "10", label: "10 items" },
               ]}
             />

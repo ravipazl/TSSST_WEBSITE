@@ -5,6 +5,7 @@ import { IoMdCheckmark, IoMdArrowDropdown } from "react-icons/io";
 import { LuRefreshCcw } from "react-icons/lu";
 import { FcSearch } from "react-icons/fc";
 import AddAppReleaseModal from "./Appreleasemodal";
+import toast from "react-hot-toast";
  
 // Custom Dropdown Component
 const CustomDropdown = ({ options, value, onChange, width = "120px" }) => {
@@ -151,7 +152,7 @@ const Apprelease = () => {
   const [statusFilter, setStatusFilter] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [logsPerPage, setLogsPerPage] = useState(5); // Default value
+  const [logsPerPage, setLogsPerPage] = useState(25); // Default value
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // Edit functionality removed
@@ -247,6 +248,7 @@ const Apprelease = () => {
        
         // Show success message
         setSuccessMessage(`App release ${selectedRelease.version || 'selected'} deleted successfully`);
+        toast.success('App  deleted successfully');
        
         // Refresh the data after successful deletion
         fetchLogs();
@@ -255,6 +257,7 @@ const Apprelease = () => {
       }
     } catch (error) {
       console.error("Error deleting release:", error);
+      toast.error(`Failed to delete app release ${selectedRelease.version || 'selected'}`);
     } finally {
       // Close the modal
       setIsDeleteModalOpen(false);
@@ -306,7 +309,7 @@ const Apprelease = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: "20px",
+          
         }}
       >
         <h2 style={{ fontSize: "24px", fontWeight: "bold" }}>
@@ -397,7 +400,7 @@ const Apprelease = () => {
       </div>
  
       {/* Logs Table */}
-      <div style={{ overflowx: "auto" ,height:"380px",overflowY: "auto"}}>
+      <div style={{ overflowx: "auto" ,height:"450px",overflowY: "auto"}}>
         {loading ? (
           <div
             style={{
@@ -573,7 +576,7 @@ const Apprelease = () => {
               width="120px"
               options={[
                
-                { value: "5", label: "5 items" },
+                { value: "25", label: "25 items" },
                 { value: "10", label: "10 items" },
                
               ]}
@@ -637,6 +640,7 @@ const Apprelease = () => {
           setIsModalOpen(false);
           if (success) {
             setSuccessMessage("App release added successfully");
+            toast.success('App release added successfully');
             fetchLogs(); // Refresh data if operation was successful
           }
         }}

@@ -9,6 +9,8 @@ import AppScreens from './components/Appscreen';
 import Mobile from './components/Mobile';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Admin components
 import Dashboard from './admin/Dashboard';

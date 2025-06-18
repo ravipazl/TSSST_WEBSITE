@@ -22,7 +22,7 @@ const Configsettings = () => {
   const [searchTerm, setSearchTerm] = useState("");
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(25);
   // Sorting
   const [sortField, setSortField] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc"); // or 'desc'
@@ -400,7 +400,6 @@ const Configsettings = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            marginBottom: "20px",
           }}
         >
           <h2 style={{ fontSize: "24px", fontWeight: "bold" }}>
@@ -484,7 +483,7 @@ const Configsettings = () => {
         maxHeight: "100vh",
      
       }}>
-        <div style={{ overflowx: "auto" ,height:"380px",overflowY: "auto"}}>
+        <div style={{ overflowx: "auto" ,height:"450px",overflowY: "auto"}}>
           {loading ? (
             <div style={{
               textAlign: "center",
@@ -670,7 +669,7 @@ const Configsettings = () => {
               </label>
               <CustomDropdown
                 options={[
-                  { label: "5 items ", value: 5 },
+                  { label: "25 items ", value: 25 },
                   { label: "10 items ", value: 10 },
                 ]}
                 value={pageSize}

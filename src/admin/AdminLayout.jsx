@@ -48,15 +48,16 @@ const AdminLayout = ({ children }) => {
       path: "/admin", 
       icon: <FaChartLine /> 
     },
-    { 
-      name: "Config Settings", 
-      path: "/admin/config-settings", 
-      icon: <FaCog /> 
-    },
+
     { 
       name: "App Releases", 
       path: "/admin/app-releases", 
       icon: <FaClipboardList /> 
+    },
+    { 
+      name: "Config Settings", 
+      path: "/admin/config-settings", 
+      icon: <FaCog /> 
     },
     { 
       name: "App Logs", 

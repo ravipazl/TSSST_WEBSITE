@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BaseUrl } from "./Constant";
 import axios from "axios";
 import ReactSelect from "react-select";
+import toast, { Toaster } from 'react-hot-toast';
 
 function LoginModal({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -10,8 +11,6 @@ function LoginModal({ isOpen, onClose }) {
   const [selectedCountry, setSelectedCountry] = useState();
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [step, setStep] = useState("form");
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
@@ -26,6 +25,7 @@ function LoginModal({ isOpen, onClose }) {
         setSelectedCountry(response?.data?.data[0]);
       } catch (error) {
         console.error("Error fetching countries", error);
+        toast.error(`${error.response?.data?.message || "Failed to load countries."}`);
       }
     };
     fetchCountries();
@@ -35,9 +35,7 @@ function LoginModal({ isOpen, onClose }) {
     if (isOpen) {
       setPhone("");
       setOtp("");
-      setError("");
       setStep("form");
-      setSuccess("");
     }
   }, [isOpen]);
 
@@ -81,36 +79,38 @@ function LoginModal({ isOpen, onClose }) {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setSuccess("");
+    
     if (!selectedCountry || !selectedCountry.countryCode) {
-      setError("Please select a country");
+      toast.error("Please select a country");
       return;
     }
     if (phone.length !== 10 || !/^\d+$/.test(phone)) {
-      setError("Enter valid 10-digit phone number");
+      toast.error("Enter valid 10-digit phone number");
       return;
     }
+    
     try {
       const payload = {
         countryCode: selectedCountry.countryCode,
         phoneNumber: phone,
       };
-      const response = await axios.post(`${BaseUrl}/send-otp`, payload);
+      const response = await axios.put(`${BaseUrl}/send-otp`, payload);
       console.log("OTP sent:", response.data);
-      setError("");
+      
+      toast.success("OTP sent successfully!");
       setOtp("");
       setStep("otp");
       setTimer(60);
       setCanResend(false);
     } catch (err) {
       console.error(err);
-      setError("Failed to send OTP. Please try again.");
+      toast.error(`${err.response?.data?.message || "Failed to send OTP."}`);
     }
   };
 
   const handleResendOtp = async (e) => {
     e.preventDefault();
-    setError("");
+    
     try {
       const payload = {
         countryCode: selectedCountry.countryCode,
@@ -118,12 +118,14 @@ function LoginModal({ isOpen, onClose }) {
       };
       const response = await axios.post(`${BaseUrl}/send-otp`, payload);
       console.log("OTP resent:", response.data);
+      
+      toast.success("OTP resent successfully!");
       setOtp("");
       setTimer(60);
       setCanResend(false);
     } catch (err) {
       console.error("Resend error:", err);
-      setError("Failed to resend OTP. Please try again.");
+      toast.error("Failed to resend OTP. Please try again.");
     }
   };
 
@@ -140,8 +142,7 @@ function LoginModal({ isOpen, onClose }) {
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
+    
     const payload = {
       phoneNumber: phone,
       otp: otp,
@@ -152,124 +153,160 @@ function LoginModal({ isOpen, onClose }) {
         Accept: "application/json",
       },
     };
+    
     try {
       const response = await axios.post(`${BaseUrl}/verify-otp`, payload, config);
       console.log("OTP verified:", response.data);
+      
       if (response?.data?.status === true) {
-        setSuccess("Login successful!");
+        toast.success("Login successful!");
         setTimeout(() => {
           onClose();
           navigate("/admin");
         }, 1500);
       } else {
-        setError("Invalid OTP");
+        toast.error("Invalid OTP");
       }
     } catch (error) {
       console.error("OTP verification error:", error.response?.data || error.message);
-      setError(error.response?.data?.message || "Failed to verify OTP.");
+      toast.error(error.response?.data?.message || "Failed to verify OTP.");
     }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div style={styles.modalOverlay}>
-      <div style={styles.container} ref={modalRef}>
-        <div style={styles.closeButton} onClick={onClose}>×</div>
-        <h3 style={styles.heading}>Login</h3>
-        {success && <p style={styles.success}>{success}</p>}
+    <>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          // Define default options
+          className: '',
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+            style: {
+              background: '#10B981',
+              color: '#fff',
+            },
+          },
+          error: {
+            duration: 4000,
+            style: {
+              background: '#EF4444',
+              color: '#fff',
+            },
+          },
+        }}
+      />
+      <div style={styles.modalOverlay}>
+        <div style={styles.container} ref={modalRef}>
+          <div style={styles.closeButton} onClick={onClose}>×</div>
+          <h3 style={styles.heading}>Login</h3>
 
-        {step === "form" && (
-          <form onSubmit={handleFormSubmit} style={styles.form}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-              <ReactSelect
-                value={selectedCountry}
-                onChange={(val) => setSelectedCountry(val)}
-                options={countries}
-                getOptionLabel={(e) => `${e.countryCode}`}
-                styles={{
-                  control: (base) => ({ ...base, minHeight: "45px", borderRadius: "8px", flex: 1 }),
-                  option: (base) => ({ ...base, display: "flex", alignItems: "center", gap: "8px", fontSize: "14px" }),
-                }}
-                formatOptionLabel={(country) => (
-                  <div style={styles.countryOption}>
-                    <img src={country.countryFlag} alt="" style={styles.countryFlag} />
-                    <span>{country.countryCode}</span>
-                  </div>
-                )}
-              />
-              <input
-                type="text"
-                placeholder="Phone Number"
-                style={styles.input}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              />
-            </div>
-            {error && step === "form" && <p style={styles.error}>{error}</p>}
-            <button type="submit" style={styles.button}>Get OTP</button>
-          </form>
-        )}
-
-        {step === "otp" && (
-          <div style={styles.otpContainer}>
-            <h2 style={styles.otpHeading}>OTP verification</h2>
-            <p style={styles.otpSubtext}>Please enter the OTP sent to your phone number.</p>
-            <form onSubmit={handleVerifyOtp} style={styles.otpForm}>
-              <div style={styles.otpInputWrapper}>
-                {Array(6).fill(0).map((_, i) => (
-                <input
-                key={i}
-                type="text"
-                maxLength="1"
-                style={styles.otpBox}
-                value={otp[i] || ""}
-                onChange={(e) => handleOtpInput(e, i)}
-                onKeyDown={(e) => {
-                    if (e.key === "Backspace") {
-                    if (otp[i]) {
-                        // Clear current input
-                        const otpArray = otp.split("");
-                        otpArray[i] = "";
-                        setOtp(otpArray.join(""));
-                    } else if (i > 0) {
-                        // Move focus back and clear previous
-                        inputRefs.current[i - 1].focus();
-                        const otpArray = otp.split("");
-                        otpArray[i - 1] = "";
-                        setOtp(otpArray.join(""));
-                    }
-                    }
-                }}
-                ref={(el) => (inputRefs.current[i] = el)}
-                />
-
-                ))}
-              </div>
-              <div style={styles.timerRow}>
-                <span>
-                  Remaining time: <span style={{ color: "#ff3e00" }}>
-                    {`00:${timer < 10 ? `0${timer}` : timer}`}
-                  </span>
-                </span>
-                <span style={styles.resendText}>
-                  Didn't get the code?{" "}
-                  {canResend ? (
-                    <a href="#" onClick={handleResendOtp} style={{ color: "#ff3e00", fontWeight: "bold" }}>Resend</a>
-                  ) : (
-                    <span style={{ color: "#aaa" }}>Resend</span>
+          {step === "form" && (
+            <form onSubmit={handleFormSubmit} style={styles.form}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                <ReactSelect
+                  value={selectedCountry}
+                  onChange={(val) => setSelectedCountry(val)}
+                  options={countries}
+                  getOptionLabel={(e) => `${e.countryCode}`}
+                  styles={{
+                    control: (base) => ({ ...base, minHeight: "45px", borderRadius: "8px", flex: 1 }),
+                    option: (base) => ({ ...base, display: "flex", alignItems: "center", gap: "8px", fontSize: "14px" }),
+                  }}
+                  formatOptionLabel={(country) => (
+                    <div style={styles.countryOption}>
+                      <img src={country.countryFlag} alt="" style={styles.countryFlag} />
+                      <span>{country.countryCode}</span>
+                    </div>
                   )}
-                </span>
+                />
+                <input
+                  type="text"
+                  placeholder="Phone Number"
+                  style={styles.input}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
               </div>
-              {error && step === "otp" && <p style={styles.error}>{error}</p>}
-              <button type="submit" style={styles.verifyBtn}>Verify</button>
-              <button type="button" style={styles.cancelBtn} onClick={() => setStep("form")}>Cancel</button>
+              <button type="submit" style={styles.button}>Get OTP</button>
             </form>
-          </div>
-        )}
+          )}
+
+          {step === "otp" && (
+            <div style={styles.otpContainer}>
+              <h2 style={styles.otpHeading}>OTP verification</h2>
+              <p style={styles.otpSubtext}>Please enter the OTP sent to your phone number.</p>
+              <form onSubmit={handleVerifyOtp} style={styles.otpForm}>
+                <div style={styles.otpInputWrapper}>
+                  {Array(6).fill(0).map((_, i) => (
+                  <input
+                  key={i}
+                  type="text"
+                  maxLength="1"
+                  style={styles.otpBox}
+                  value={otp[i] || ""}
+                  onChange={(e) => handleOtpInput(e, i)}
+                  onKeyDown={(e) => {
+                      if (e.key === "Backspace") {
+                      if (otp[i]) {
+                          // Clear current input
+                          const otpArray = otp.split("");
+                          otpArray[i] = "";
+                          setOtp(otpArray.join(""));
+                      } else if (i > 0) {
+                          // Move focus back and clear previous
+                          inputRefs.current[i - 1].focus();
+                          const otpArray = otp.split("");
+                          otpArray[i - 1] = "";
+                          setOtp(otpArray.join(""));
+                      }
+                      }
+                  }}
+                  ref={(el) => (inputRefs.current[i] = el)}
+                  />
+
+                  ))}
+                </div>
+                <div style={styles.timerRow}>
+                  <span>
+                    Remaining time: <span style={{ color: "#ff3e00" }}>
+                      {`00:${timer < 10 ? `0${timer}` : timer}`}
+                    </span>
+                  </span>
+                  <span style={styles.resendText}>
+                    Didn't get the code?{" "}
+                    {canResend ? (
+                      <a href="#" onClick={handleResendOtp} style={{ color: "#ff3e00", fontWeight: "bold" }}>Resend</a>
+                    ) : (
+                      <span style={{ color: "#aaa" }}>Resend</span>
+                    )}
+                  </span>
+                </div>
+                <button type="submit" style={styles.verifyBtn}>Verify</button>
+                <button type="button" style={styles.cancelBtn} onClick={() => setStep("form")}>Cancel</button>
+              </form>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -303,8 +340,6 @@ const styles = {
     color: "#fff", border: "none", borderRadius: "8px",
     cursor: "pointer", fontWeight: "600", transition: "background 0.3s ease",
   },
-  success: { color: "green", textAlign: "center", fontWeight: "500", marginBottom: "15px" },
-  error: { color: "red", marginBottom: "10px", textAlign: "center" },
   otpContainer: { textAlign: "center" },
   otpHeading: {
     background: "linear-gradient(135deg, #ff3e00, #ff6a00)", WebkitBackgroundClip: "text",

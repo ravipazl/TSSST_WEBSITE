@@ -154,7 +154,7 @@ const ApiLogs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const API_ENDPOINT = "https://buzz.pazl.info/buzz-api/all-analyticss";
-  const [logsPerPage, setLogsPerPage] = useState(5); 
+  const [logsPerPage, setLogsPerPage] = useState(25); 
   const [loading, setLoading] = useState(true);
 
   const fetchLogs = async () => {
@@ -207,14 +207,13 @@ const ApiLogs = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div >
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: "20px",
         }}
       >
         <h2 style={{ fontSize: "24px", fontWeight: "bold" }}>API Logs</h2>
@@ -310,7 +309,7 @@ const ApiLogs = () => {
       </div>
 
       {/* Logs Table */}
-      <div style={{ overflowX: "auto", maxHeight: "380px", overflowY: "auto" ,border: "1px solid #ddd"}}>
+      <div style={{ overflowX: "auto", maxHeight: "450px", overflowY: "auto" ,border: "1px solid #ddd"}}>
         {loading ? (
           <div
             style={{
@@ -461,7 +460,7 @@ const ApiLogs = () => {
               justifyContent="center"
               width="100px"
               options={[
-                { value: "5", label: "5" },
+                { value: "25", label: "25" },
                 { value: "10", label: "10" },
               ]}
             />

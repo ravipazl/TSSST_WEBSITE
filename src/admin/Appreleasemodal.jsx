@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
  
 const AddAppReleaseModal = ({ isOpen,setIsModalOpen, onClose, initialData = null, isEditing = false }) => {
   const [osType, setOsType] = useState(initialData?.osType || "Android");
@@ -93,6 +94,7 @@ const AddAppReleaseModal = ({ isOpen,setIsModalOpen, onClose, initialData = null
       if (response.data && response.data.status) {
         // Close the modal and refresh the parent component
         onClose(true); // Pass true to indicate successful operation
+        toast.success(isEditing ? "App release updated successfully!" : "New app release added!");
       } else {
         setError(response.data?.message || "Failed to save. Please try again.");
       }
@@ -101,6 +103,7 @@ const AddAppReleaseModal = ({ isOpen,setIsModalOpen, onClose, initialData = null
       setError(error.response?.data?.message ||
                (error.response?.status === 413 ? "File is too large. Maximum size is 10MB." :
                "An error occurred. Please try again."));
+      toast.error(`Error: ${error.response?.data?.message || "An error occurred. Please try again."}`);
     } finally {
       setIsSubmitting(false);
     }
