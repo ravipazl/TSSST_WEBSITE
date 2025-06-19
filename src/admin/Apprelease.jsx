@@ -400,7 +400,7 @@ const Apprelease = () => {
       </div>
  
       {/* Logs Table */}
-      <div style={{ overflowx: "auto" ,height:"450px",overflowY: "auto"}}>
+      <div style={{ overflowx: "auto" ,height:"400px",overflowY: "auto"}}>
         {loading ? (
           <div
             style={{

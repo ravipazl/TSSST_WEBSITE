@@ -47,6 +47,14 @@ const AddAppReleaseModal = ({ isOpen,setIsModalOpen, onClose, initialData = null
  
     // Create form data for the API request
     const formData = new FormData();
+    
+    // Debug: Log the osType before sending
+    console.log("Selected OS Type:", osType);
+    console.log("Form data being sent:");
+    console.log("- osType:", osType);
+    console.log("- version:", version);
+    console.log("- releaseNotes:", releaseNotes);
+    
     formData.append("osType", osType);
     formData.append("version", version);
     formData.append("releaseNotes", releaseNotes);
@@ -140,15 +148,18 @@ const AddAppReleaseModal = ({ isOpen,setIsModalOpen, onClose, initialData = null
         )}
        
         <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
-          <label>OS Type:</label>
+          <label>OS Type: <span style={{color: '#007bff', fontWeight: 'bold'}}>({osType})</span></label>
           <select
             value={osType}
-            onChange={(e) => setOsType(e.target.value)}
+            onChange={(e) => {
+              console.log("OS Type changed from:", osType, "to:", e.target.value);
+              setOsType(e.target.value);
+            }}
             style={inputStyle}
             disabled={isSubmitting}
           >
             <option value="Android">Android</option>
-            <option value="iOS">iOS</option>
+            <option value="Ios">Ios</option>
           </select>
  
           <label>Version:</label>
@@ -186,10 +197,6 @@ const AddAppReleaseModal = ({ isOpen,setIsModalOpen, onClose, initialData = null
               onChange={(e) => setApkFile(e.target.files[0])}
               style={{
                 ...inputStyle,
-                paddingRight: "110px", // Make room for the file name
-                border: "2px solid #ddd",
-                padding: "10px",
-                backgroundColor: "#f9f9f9"
               }}
               required={!isEditing} // Only required for new releases
               disabled={isSubmitting}
@@ -305,13 +312,17 @@ const modalStyles = {
   boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
 };
  
-const inputStyle = {
-  width: "100%",
-  padding: "8px",
-  margin: "5px 0 15px",
-  borderRadius: "4px",
-  border: "1px solid #ccc",
-};
+  const inputStyle = {
+    width: "100%",
+    padding: "8px 12px",
+    borderRadius: "6px",
+    border: "1px solid #FF6B00",
+    marginBottom: "10px",
+    boxSizing: "border-box",
+    fontSize: "14px",
+    color: "#333",
+    outline: "none",
+  };
  
 const closeButtonStyle = {
   position: "absolute",

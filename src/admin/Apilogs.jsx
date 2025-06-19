@@ -309,7 +309,7 @@ const ApiLogs = () => {
       </div>
 
       {/* Logs Table */}
-      <div style={{ overflowX: "auto", maxHeight: "450px", overflowY: "auto" ,border: "1px solid #ddd"}}>
+      <div style={{ overflowX: "auto", maxHeight: "400px", overflowY: "auto" ,border: "1px solid #ddd"}}>
         {loading ? (
           <div
             style={{
