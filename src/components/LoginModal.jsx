@@ -88,7 +88,7 @@ function LoginModal({ isOpen, onClose }) {
         },
       };
       
-      const response = await axios.put(`${BaseUrl}/login`, payload, config);
+      const response = await axios.put(`${BaseUrl}/send-otp`, payload, config);
       console.log("Login response:", response.data);
       
       if (response?.data?.status === true) {
