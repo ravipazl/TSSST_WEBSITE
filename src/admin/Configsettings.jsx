@@ -72,7 +72,7 @@ const Configsettings = () => {
   // Create
   const handleCreateConfig = async (configData) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/config`, configData);
+      const response = await axios.post(`${BaseUrl}/config`, configData);
       console.log("Create response:", response.data);
       // Prepend new object
       setConfigs((prev) => [response.data, ...prev]);
@@ -96,7 +96,7 @@ const Configsettings = () => {
     }
     try {
       console.log("Updating config ID:", configId, "with data:", configData);
-      const response = await axios.put(`${API_BASE_URL}/config/${configId}`, configData);
+      const response = await axios.put(`${BaseUrl}/config/${configId}`, configData);
       console.log("Update response:", response.data);
       // Replace in local state
       setConfigs((prev) =>
@@ -127,7 +127,7 @@ const Configsettings = () => {
       return;
     }
     try {
-      await axios.delete(`${API_BASE_URL}/config/${configId}`);
+      await axios.delete(`${BaseUrl}/config/${configId}`);
       setConfigs((prev) =>
         prev.filter((item) => {
           const itemId = item.id ?? item.config_id;
