@@ -286,7 +286,7 @@ const AppLogs = () => {
       </div>
  
       {/* Logs Table */}
-      <div style={{ overflowX: "auto",height:"450px" , overflowY: "auto"}}>
+      <div style={{ overflowX: "auto",height:"400px" , overflowY: "auto"}}>
         {loading ? (
           <div style={{
             textAlign: "center",

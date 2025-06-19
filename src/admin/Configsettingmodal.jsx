@@ -78,7 +78,9 @@ const ConfigSettingModal = ({
     try {
       let processedValue;
       if (isJsonValue) {
-        processedValue = JSON.parse(configValue);
+        // Parse to validate JSON, then stringify for backend storage
+        const parsed = JSON.parse(configValue);
+        processedValue = JSON.stringify(parsed);
       } else {
         // For non-JSON, send as string. Adjust if your API expects numbers/booleans.
         processedValue = configValue;
@@ -87,6 +89,18 @@ const ConfigSettingModal = ({
         config_text: configKey,
         config_value: processedValue,
       };
+      
+      console.log("=== MODAL PAYLOAD ===");
+      console.log("isJsonValue:", isJsonValue);
+      console.log("Raw configValue:", configValue);
+      if (isJsonValue) {
+        console.log("JSON parsed object:", JSON.parse(configValue));
+        console.log("JSON stringified for backend:", processedValue);
+      }
+      console.log("processedValue type:", typeof processedValue);
+      console.log("processedValue content:", processedValue);
+      console.log("Final payload:", payload);
+      
       if (onSubmit) {
         await onSubmit(payload);
       }
@@ -127,7 +141,7 @@ const ConfigSettingModal = ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 1000,
+    zIndex: 9999,
   };
   
   const modalStyles = {
@@ -139,6 +153,7 @@ const ConfigSettingModal = ({
     overflowY: "auto",
     position: "relative",
     boxShadow: "0 4px 12px rgba(255,107,0,0.15)",
+
   };
   
   const inputStyle = {
@@ -224,8 +239,13 @@ const ConfigSettingModal = ({
   };
 
   return (
-    <div style={overlayStyles}>
-      <div style={modalStyles}>
+    <div style={overlayStyles} onClick={(e) => {
+      // Only close if clicking on the overlay itself, not the modal content
+      if (e.target === e.currentTarget) {
+        handleClose();
+      }
+    }}>
+      <div style={modalStyles} onClick={(e) => e.stopPropagation()}>
         <button onClick={handleClose} style={closeButtonStyle} disabled={isSubmitting}>
           <MdOutlineClose />
         </button>
